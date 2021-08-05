@@ -1,0 +1,167 @@
+* {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#info {
+    position: relative;
+
+    width: 100vw;
+    height: 100vh;
+    background-color:hsla(0, 0%, 88%, 0.803);
+}
+
+#log-in {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: rgb(255, 255, 255);
+    width: auto;
+    height: auto;
+    border-radius: 4px;
+    transform: translate(-50%, -50%);
+}
+
+#log-in-content {
+    padding: 50px 30px;
+}
+
+input[type="text"], input[type="password"] {
+    width: 300px;
+    margin: 10px 15px 2px;
+    padding: 5px;
+    background-color: rgb(237, 237, 237);
+    border: 2px solid rgb(237, 237, 237);
+    border-radius: 3px;
+}
+
+.submit {
+    width: 130px;
+    height: 30px;
+    margin: 10px 15px;
+    background-color: hsla(26, 100%, 65%, 0.809);
+    border: 2px solid hsla(26, 100%, 65%, 0.809);
+    border-radius: 4px;
+    color:hsl(0, 0%, 100%);
+}
+.submit:hover {
+    background-color: hsla(26, 100%, 77%, 0.809);
+}
+#reg-message {
+    text-align: center;
+    font-size: 13px;
+    margin: 5px 5px 5px 20px;
+    color:#47afff
+}
+#registerOpen {
+    color:#b3ee2b
+}
+#registerOpen:hover {
+    cursor: pointer;
+    background-color: hsl(0, 0%, 99%);
+}
+
+button:hover {
+    cursor:pointer;
+}
+.error-messages {
+    width: 300px;
+    margin: 5px 15px;
+    padding: 6px;
+    
+    background-color:hsl(0, 93%, 70%);
+    border-radius: 4px;
+    overflow: auto;
+    display: none;
+
+    text-align: center;
+    font-size: 12px;
+}
+
+#registerBoxDimmer {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0,0,0,0.5);
+    display: none;
+}
+
+#registerBox {
+    width: 390px;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px;
+    transform: translate(-50%, -50%);
+}
+
+#registerBoxContent {
+    padding: 40px 30px;
+}
+/* 
+#register {
+    position: relative;
+    top: 10px;
+} */
+
+#regCloser {
+	position: absolute;
+	top: 0;
+	right: 5px;
+	font-size: 2rem;
+	
+	color: grey;
+	text-decoration: none;
+	transform: rotate(45deg);
+    cursor: pointer;    
+}
+
+
+#messagerDimmer {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top:0;
+    left:0;
+    background-color: rgba(0,0,0,0.5);
+    display: none;
+}
+#messager {
+    width: 390px;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px;
+    transform: translate(-50%, -50%);
+}
+#messagerContent {
+    padding:30px;
+
+    font-size: 20px;
+    text-align:center;
+    color: hsl(0, 93%, 70%)
+}
+
+/* #regEmail {
+    width: 215px;
+    margin-right: 0;
+}
+
+#emailConfirm {
+    width: 80px;
+    height: 33px;
+    background-color: hsla(26, 100%, 65%, 0.809);
+    border: 2px solid hsla(26, 100%, 65%, 0.809);
+    border-radius: 4px;
+    color:hsl(0, 0%, 100%);
+}
+#emailConfirm:hover {
+    background-color: hsla(26, 100%, 77%, 0.809);
+} */
