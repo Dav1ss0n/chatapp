@@ -122,11 +122,11 @@ class logger {
                     if ($prepared->num_rows == 0) {
                         die(messagerArray_l3("Login", "Not found", "No such an email"));
                     } else {
-                        $prepared->close();
                         while ($row = $prepared->fetch_assoc()) {
                             $dbLogin = $row["Login"];
                             $dbPass = $row["Password"];
                         }
+                        $prepared->close();
 
                         $query = $this->conn->query("SELECT * FROM folders WHERE User = '$dbLogin'");
                         while ($row = $query->fetch_assoc()) {
