@@ -1,3 +1,5 @@
+<?php if (!isset($_COOKIE["uuid"])) {header("location: http://localhost/chat proto/login/");} ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
