@@ -195,6 +195,14 @@ class logger {
                     $dePassword = decryptString($suffPassword, $userHex, "base64");
                     if ($dePassword == $this->password) {
                         die(messagerArray_l3("Login", "Success", "You are now logged in"));
+                        $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp) VALUES (?, ?);");
+                        if (!$actionQuery) {
+                            die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                        }
+                        $actionQuery->bind_param("ss", $uuid, $currentTime);
+                        $actionQuery->execute();
+                        $conn->close();
+                        setcookie("uuid", $uuid, time() + 21600, "/");
                     } else {
                         die(messagerArray_l3("Login", "Not found", "Incorrect Password"));
                     }
