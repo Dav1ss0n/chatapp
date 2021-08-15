@@ -67,24 +67,35 @@ class logger {
             $folder_path = "users/$folderName/";
             if (mkdir($folder_path, 0777, true)) {
                 if (mkdir($folder_path."photos/", 0777, true) and mkdir($folder_path."videos/", 0777, true)) {
-                    $prepared = $this->conn->prepare("INSERT INTO folders (User, Path) VALUES (?, ?);");
-                    $prepared->bind_param("ss", $de_login, $folder_path);
-                    $prepared->execute();
-                    $prepared->close();
-                    
-                    $file = fopen("users/$folderName/hex.txt", "w");
-                    if (fwrite($file, $hex)) {
-                        fclose($file);
-                        echo messagerArray_l3("Register", "Success", "You are now logged in");
-                        $currentTime = date("Y-m-d H:i:s");
-                        $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp) VALUES (?, ?);");
-                        if (!$actionQuery) {
-                            die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                    // creating package,json with user data
+                    $package_json = fopen($folder_path."package.json", "a");
+                    if ($package_json) {
+                        fclose($package_json);
+
+                        // inserting user folder's path into db
+                        $prepared = $this->conn->prepare("INSERT INTO folders (User, Path) VALUES (?, ?);");
+                        $prepared->bind_param("ss", $de_login, $folder_path);
+                        $prepared->execute();
+                        $prepared->close();
+                        
+                        //creating hex.txt with user hex
+                        $file = fopen("users/$folderName/hex.txt", "w");
+                        if (fwrite($file, $hex)) {
+                            fclose($file);
+                            echo messagerArray_l3("Register", "Success", "You are now logged in");
+                            $currentTime = date("Y-m-d H:i:s");
+                            $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp) VALUES (?, ?);");
+                            if (!$actionQuery) {
+                                die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                            }
+                            $actionQuery->bind_param("ss", $uuid, $currentTime);
+                            $actionQuery->execute();
+                            $conn->close();
+                            setcookie("uuid", $uuid, time() + 21600, "/");
+                        } else {
+                            $conn->close();
+                            die(messagerArray_l3("File open", "Not found", "Occured unexpected problem with files"));
                         }
-                        $actionQuery->bind_param("ss", $uuid, $currentTime);
-                        $actionQuery->execute();
-                        $conn->close();
-                        setcookie("uuid", $uuid, time() + 21600, "/");
                     } else {
                         $conn->close();
                         die(messagerArray_l3("File open", "Not found", "Occured unexpected problem with files"));
