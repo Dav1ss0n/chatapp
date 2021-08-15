@@ -82,16 +82,23 @@ class logger {
                         $file = fopen("users/$folderName/hex.txt", "w");
                         if (fwrite($file, $hex)) {
                             fclose($file);
-                            echo messagerArray_l3("Register", "Success", "You are now logged in");
                             $currentTime = date("Y-m-d H:i:s");
-                            $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp) VALUES (?, ?);");
+                            $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp, IP) VALUES (?, ?, ?);");
                             if (!$actionQuery) {
                                 die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
                             }
-                            $actionQuery->bind_param("ss", $uuid, $currentTime);
+                            $actionQuery->bind_param("sss", $uuid, $currentTime, $ip);
+                            if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+                                $ip = $_SERVER['HTTP_CLIENT_IP'];
+                            } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                                $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                            } else {
+                                $ip = $_SERVER['REMOTE_ADDR'];
+                            }
                             $actionQuery->execute();
                             $conn->close();
                             setcookie("uuid", $uuid, time() + 21600, "/");
+                            die(messagerArray_l3("Login", "Success", "You are now logged in"));
                         } else {
                             $conn->close();
                             die(messagerArray_l3("File open", "Not found", "Occured unexpected problem with files"));
@@ -125,6 +132,8 @@ class logger {
         $this->conn = $conn;
         
         if (strstr($this->login, "@") and strstr($this->login, ".")) {
+                $currentTime = date("Y-m-d H:i:s");
+
                 $prepared = $this->conn->prepare("SELECT * FROM users WHERE Email = ?");
                 $prepared->bind_param("s", $this->login);
                 $prepared->execute();
@@ -143,20 +152,31 @@ class logger {
                         while ($row = $query->fetch_assoc()) {
                             $path = $row["Path"];
                         }
+                        $query = $this->conn->query("SELECT * FROM users WHERE Login = '$dbLogin'");
+                        while ($row = $query->fetch_assoc()) {
+                            $uuid = $row["UUID"];
+                        }
 
                         $userHex = file_get_contents($path."hex.txt");
 
                         $dePassword = decryptString($dbPass, $userHex, "base64");
                         if ($dePassword == $this->password) {
-                            die(messagerArray_l3("Login", "Success", "You are now logged in"));
-                            $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp) VALUES (?, ?);");
+                            $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp, IP) VALUES (?, ?, ?);");
                             if (!$actionQuery) {
                                 die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
                             }
-                            $actionQuery->bind_param("ss", $uuid, $currentTime);
+                            $actionQuery->bind_param("sss", $uuid, $currentTime, $ip);
+                            if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+                                $ip = $_SERVER['HTTP_CLIENT_IP'];
+                            } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                                $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                            } else {
+                                $ip = $_SERVER['REMOTE_ADDR'];
+                            }
                             $actionQuery->execute();
                             $conn->close();
                             setcookie("uuid", $uuid, time() + 21600, "/");
+                            die(messagerArray_l3("Login", "Success", "You are now logged in"));
                         } else {
                             die(messagerArray_l3("Login", "Not found", "Incorrect Password"));
                         }
@@ -174,15 +194,18 @@ class logger {
             if ($prepared) {
                 $dbLoginArray = array();
                 $dbPassArray = array();
+                $dbUUIDArray = array();
                 while ($row = $prepared->fetch_assoc()) {
                     $dbLoginArray[] = $row["Login"];
                     $dbPassArray[] = $row["Password"];
+                    $dbUUIDArray[] = $row["UUID"];
                 }
     
                 $prepared->close();
                 $loginStatusArray = array();
                 for ($i=0; $i<count($dbLoginArray); $i++) {
                     if (password_verify($this->login, $dbLoginArray[$i])) {
+                        $uuid = $dbUUIDArray[$i];
                         $query = $this->conn->prepare("SELECT * FROM folders WHERE User = ?");
                         if(!$query){ //если ошибка - убиваем процесс и выводим сообщение об ошибке.
                             die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
@@ -205,15 +228,22 @@ class logger {
                     $suffPassword = $loginStatusArray[0];
                     $dePassword = decryptString($suffPassword, $userHex, "base64");
                     if ($dePassword == $this->password) {
-                        die(messagerArray_l3("Login", "Success", "You are now logged in"));
-                        $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp) VALUES (?, ?);");
+                        $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp, IP) VALUES (?, ?, ?);");
                         if (!$actionQuery) {
                             die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
                         }
-                        $actionQuery->bind_param("ss", $uuid, $currentTime);
+                        $actionQuery->bind_param("sss", $uuid, $currentTime, $ip);
+                        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+                            $ip = $_SERVER['HTTP_CLIENT_IP'];
+                        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                        } else {
+                            $ip = $_SERVER['REMOTE_ADDR'];
+                        }
                         $actionQuery->execute();
                         $conn->close();
                         setcookie("uuid", $uuid, time() + 21600, "/");
+                        die(messagerArray_l3("Login", "Success", "You are now logged in"));
                     } else {
                         die(messagerArray_l3("Login", "Not found", "Incorrect Password"));
                     }
