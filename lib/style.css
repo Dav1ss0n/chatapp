@@ -23,6 +23,7 @@
     height: auto;
     border-radius: 4px;
     transform: translate(-50%, -50%);
+    box-shadow: 0 0 5px rgb(208, 207, 207);
 }
 
 #log-in-content {
@@ -116,7 +117,7 @@ button:hover {
 	right: 5px;
 	font-size: 2rem;
 	
-	color: grey;
+	color: hsl(0, 0%, 50%);
 	text-decoration: none;
 	transform: rotate(45deg);
     cursor: pointer;    

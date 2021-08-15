@@ -8,13 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="lib/style.css">
     <script defer src="lib/script.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/system/libraries/jquery-3.6.0.min.js"></script>
     <title>Main page of kolhozmates</title>
 </head>
 <body>
     <div id="main">
-        <h1>Welcome to Kolhozmates!</h1>
-        <h3>This is the place where you can chat!</h3>
+        
     </div>
 </body>
 </html>
