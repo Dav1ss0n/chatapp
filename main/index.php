@@ -1,4 +1,12 @@
-<?php if (!isset($_COOKIE["uuid"])) {header("location: http://localhost/chat proto/login/");} ?>
+<?php 
+if (!isset($_COOKIE["uuid"])) {
+    header("location: http://localhost/chat proto/login/");
+    } else {
+        session_start();
+        $_SESSION["uuid"] = $_COOKIE["uuid"];
+    }
+     
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +21,7 @@
 </head>
 <body>
     <div id="main">
-        
+
     </div>
 </body>
 </html>
