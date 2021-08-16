@@ -21,7 +21,7 @@ if (!isset($_COOKIE["uuid"])) {
 </head>
 <body>
     <div id="main">
-
+        <?php echo bin2hex($_SESSION["uuid"])."<br/>"; echo hex2bin( bin2hex($_SESSION["uuid"])); ?>
     </div>
 </body>
 </html>

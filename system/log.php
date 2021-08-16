@@ -10,10 +10,6 @@ if (isset($_POST["param"])) {
         // echo "1 step";
         $newUser = new logger();
         $newUser->register(json_decode($_POST["info"]));
-    } elseif ($_POST["param"] == "sessionChecker") {
-        $s = new logger();
-        $s->sessionChecker($_POST["entranceTime"], $_POST["uuid"]);
-        echo $s;
     }
 }
 
@@ -54,11 +50,8 @@ class logger {
             echo messagerArray_l3("Register", "Not found", "Login and Email were already taken");
         } else {
             $prepared = $this->conn->prepare("INSERT INTO users (Login, Email, Password, UUID) VALUES (?, ?, ?, ?);");
-            $prepared->bind_param("ssss", $de_login, $this->email, $de_password, $uuid);
-            $hex = bin2hex(openssl_random_pseudo_bytes(32));
-            $de_login = password_hash($this->login, PASSWORD_BCRYPT);
-            $de_password = encryptString($this->password, $hex, "base64");
-            // echo $de_login."<br/>".$de_password."<br/>";
+            $prepared->bind_param("ssss", $this->login, $this->email, $de_password, $uuid);
+            $de_password = password_hash($this->password, PASSWORD_BCRYPT);
             $uuid =  gen_uuid();
             $prepared->execute();
             $prepared->close();
@@ -67,42 +60,34 @@ class logger {
             $folder_path = "users/$folderName/";
             if (mkdir($folder_path, 0777, true)) {
                 if (mkdir($folder_path."photos/", 0777, true) and mkdir($folder_path."videos/", 0777, true)) {
-                    // creating package,json with user data
+                    // creating package.json with user data
                     $package_json = fopen($folder_path."package.json", "a");
                     if ($package_json) {
                         fclose($package_json);
 
                         // inserting user folder's path into db
                         $prepared = $this->conn->prepare("INSERT INTO folders (User, Path) VALUES (?, ?);");
-                        $prepared->bind_param("ss", $de_login, $folder_path);
+                        $prepared->bind_param("ss", $uuid, $folder_path);
                         $prepared->execute();
                         $prepared->close();
                         
-                        //creating hex.txt with user hex
-                        $file = fopen("users/$folderName/hex.txt", "w");
-                        if (fwrite($file, $hex)) {
-                            fclose($file);
-                            $currentTime = date("Y-m-d H:i:s");
-                            $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp, IP) VALUES (?, ?, ?);");
-                            if (!$actionQuery) {
-                                die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
-                            }
-                            $actionQuery->bind_param("sss", $uuid, $currentTime, $ip);
-                            if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-                                $ip = $_SERVER['HTTP_CLIENT_IP'];
-                            } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                                $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-                            } else {
-                                $ip = $_SERVER['REMOTE_ADDR'];
-                            }
-                            $actionQuery->execute();
-                            $conn->close();
-                            setcookie("uuid", $uuid, time() + 21600, "/");
-                            die(messagerArray_l3("Login", "Success", "You are now logged in"));
-                        } else {
-                            $conn->close();
-                            die(messagerArray_l3("File open", "Not found", "Occured unexpected problem with files"));
+                        $currentTime = date("Y-m-d H:i:s");
+                        $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp, IP) VALUES (?, ?, ?);");
+                        if (!$actionQuery) {
+                            die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
                         }
+                        $actionQuery->bind_param("sss", $uuid, $currentTime, $ip);
+                        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+                            $ip = $_SERVER['HTTP_CLIENT_IP'];
+                        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                        } else {
+                            $ip = $_SERVER['REMOTE_ADDR'];
+                        }
+                        $actionQuery->execute();
+                        $conn->close();
+                        setcookie("uuid", $uuid, time() + 21600, "/");
+                        die(messagerArray_l3("Login", "Success", "You are now logged in"));
                     } else {
                         $conn->close();
                         die(messagerArray_l3("File open", "Not found", "Occured unexpected problem with files"));
@@ -143,24 +128,12 @@ class logger {
                         die(messagerArray_l3("Login", "Not found", "No such an email"));
                     } else {
                         while ($row = $prepared->fetch_assoc()) {
-                            $dbLogin = $row["Login"];
                             $dbPass = $row["Password"];
+                            $uuid = $row["UUID"];
                         }
                         $prepared->close();
 
-                        $query = $this->conn->query("SELECT * FROM folders WHERE User = '$dbLogin'");
-                        while ($row = $query->fetch_assoc()) {
-                            $path = $row["Path"];
-                        }
-                        $query = $this->conn->query("SELECT * FROM users WHERE Login = '$dbLogin'");
-                        while ($row = $query->fetch_assoc()) {
-                            $uuid = $row["UUID"];
-                        }
-
-                        $userHex = file_get_contents($path."hex.txt");
-
-                        $dePassword = decryptString($dbPass, $userHex, "base64");
-                        if ($dePassword == $this->password) {
+                        if (password_verify($this->password, $dbPass)) {
                             $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp, IP) VALUES (?, ?, ?);");
                             if (!$actionQuery) {
                                 die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
@@ -185,49 +158,22 @@ class logger {
                     die(messagerArray_l3("Login", "Not found", "Occured unexpected error with data"));
                 }
         } else {
-            $prepared = $this->conn->prepare("SELECT * FROM users");
+            $prepared = $this->conn->prepare("SELECT * FROM users WHERE Login = ?");
             if(!$prepared){ //если ошибка - убиваем процесс и выводим сообщение об ошибке.
                 die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
             }
+            $prepared->bind_param("s", $this->login);
             $prepared->execute();
             $prepared = $prepared->get_result();
             if ($prepared) {
-                $dbLoginArray = array();
-                $dbPassArray = array();
-                $dbUUIDArray = array();
-                while ($row = $prepared->fetch_assoc()) {
-                    $dbLoginArray[] = $row["Login"];
-                    $dbPassArray[] = $row["Password"];
-                    $dbUUIDArray[] = $row["UUID"];
-                }
-    
-                $prepared->close();
-                $loginStatusArray = array();
-                for ($i=0; $i<count($dbLoginArray); $i++) {
-                    if (password_verify($this->login, $dbLoginArray[$i])) {
-                        $uuid = $dbUUIDArray[$i];
-                        $query = $this->conn->prepare("SELECT * FROM folders WHERE User = ?");
-                        if(!$query){ //если ошибка - убиваем процесс и выводим сообщение об ошибке.
-                            die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
-                        }
-                        $query->bind_param("s", $dbLoginArray[$i]);
-                        $query->execute();
-                        $query = $query->get_result();
-                        while ($row = $query->fetch_assoc()) {
-                            $folder_path = $row["Path"];
-                        }
-                        
-                        $query->close();
-                        $userHex = file_get_contents($folder_path."hex.txt");
-                        array_push($loginStatusArray, $dbPassArray[$i]);
-                    } else {
-                        die(messagerArray_l3("Login", "Not found", "No such a login"));
+                if ($prepared->num_rows == 1) {
+                    while ($row = $prepared->fetch_assoc()) {
+                        $dbPass = $row["Password"];
+                        $uuid = $row["UUID"];
                     }
-                }
-                if (count($loginStatusArray) == 1) {
-                    $suffPassword = $loginStatusArray[0];
-                    $dePassword = decryptString($suffPassword, $userHex, "base64");
-                    if ($dePassword == $this->password) {
+        
+                    $prepared->close();
+                    if (password_verify($this->password, $dbPass)) {
                         $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp, IP) VALUES (?, ?, ?);");
                         if (!$actionQuery) {
                             die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
@@ -256,13 +202,6 @@ class logger {
         }
 
     }
-
-    final public function sessionChecker($value, $user) {
-        require("/xampp/htdocs/chat proto/system/functions/sessions/session-time.php");
-        
-        $sessionChecker = new sessionChecker($value, $user);
-        return $sessionChecker;
-    }
 }
 
 class dataChecker {
@@ -274,20 +213,15 @@ class dataChecker {
         $conn = $chat->connect();
 
         $this->conn = $conn;
-        $query = $this->conn->query( "SELECT * FROM users");
 
-        $dbLoginArray = array();
-        while ($row = $query->fetch_assoc()) {
-            $dbLoginArray[] = $row["Login"];
+        $select_userLogin = $this->conn->prepare("SELECT * FROM users WHERE Login = ?");
+        if (!$select_userLogin) {
+            die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
         }
-        
-        $sufficientLogin = array();
-        for ($i=0; $i<count($dbLoginArray); $i++) {
-            if (password_verify($loginToCheck, $dbLoginArray[$i])) {
-                array_push($sufficientLogin, $i);
-            }
-        }
-        if (count($sufficientLogin) == 1) {
+        $select_userLogin->bind_param("s", $loginToCheck);
+        $select_userLogin->execute();
+        $res = $select_userLogin->get_result();
+        if ($res->num_rows == 1) {
             return true;
         } else {
             return false;
