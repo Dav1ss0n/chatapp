@@ -15,7 +15,7 @@ class statuser {
     final public function statusChanger($status) {
         $this->status = $status;
 
-        require("../databases/chat.php");
+        require("includes/databases/chat.php");
         $chat = new db_connect();
         $conn = $chat->connect();
         $this->conn = $conn;

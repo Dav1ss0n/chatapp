@@ -11,7 +11,7 @@ if (isset($_COOKIE["uuid"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="lib/style.css">
     <script defer src="lib/script.js"></script>
-    <script src="/chat proto/system/libraries/jquery-3.6.0.min.js"></script>
+    <script src="/chat proto/system//libraries/jquery-3.6.0.min.js"></script>
     <title>Log in kolhozmates</title>
 </head>
 <body>

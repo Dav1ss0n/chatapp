@@ -10,7 +10,11 @@ if (isset($_POST["param"])) {
         // echo "1 step";
         $newUser = new logger();
         $newUser->register(json_decode($_POST["info"]));
+    } else {
+        header("location: http://localhost/chat proto/");
     }
+} else {
+    header("location: http://localhost/chat proto/");
 }
 
 
@@ -26,10 +30,10 @@ class logger {
         $this->email = trim($info[1]);
         $this->password = trim($info[2]);
 
-        require("crypto/encrypt/basic_v1.php");
-        require("databases/chat.php");
-        require("functions/messager-array.php");
-        require("functions/uuid-gnrtr.php");
+        require("includes/crypto/encrypt/basic_v1.php");
+        require("includes/databases/chat.php");
+        require("includes/functions/messager-array.php");
+        require("includes/functions/uuid-gnrtr.php");
         
         $chat = new db_connect();
         $conn = $chat->connect();
@@ -115,10 +119,10 @@ class logger {
         $this->login = trim($info[0]);
         $this->password = trim($info[1]);
 
-        require("crypto/decrypt/basic_v1.php");
-        require("databases/chat.php");
-        require("functions/messager-array.php");
-        require("functions/uuid-gnrtr.php");
+        require("includes/crypto/decrypt/basic_v1.php");
+        require("includes/databases/chat.php");
+        require("includes/functions/messager-array.php");
+        require("includes/functions/uuid-gnrtr.php");
 
         $chat = new db_connect();
         $conn = $chat->connect();
