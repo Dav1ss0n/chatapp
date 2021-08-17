@@ -85,8 +85,16 @@ class logger {
                             $ip = $_SERVER['REMOTE_ADDR'];
                         }
                         $actionQuery->execute();
-                        $conn->close();
                         setcookie("uuid", bin2hex($uuid), time() + 21600, "/");
+
+                        $insert_status = $this->conn->prepare("INSERT INTO user_statuses (User, Status, StatusChangeTime) VALUES (?, ?, ?)");
+                        if (!$insert_status) {
+                            die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                        }
+                        $insert_status->bind_param("sss", $uuid, $userStatus, $currentTime);
+                        $userStatus = "Online";
+                        $insert_status->execute();
+                        $conn->close();
                         die(messagerArray_l3("Login", "Success", "You are now logged in"));
                     } else {
                         $conn->close();
@@ -147,8 +155,8 @@ class logger {
                                 $ip = $_SERVER['REMOTE_ADDR'];
                             }
                             $actionQuery->execute();
-                            $conn->close();
                             setcookie("uuid", bin2hex($uuid), time() + 21600, "/");
+                            $conn->close();
                             die(messagerArray_l3("Login", "Success", "You are now logged in"));
                         } else {
                             die(messagerArray_l3("Login", "Not found", "Incorrect Password"));
@@ -187,8 +195,8 @@ class logger {
                             $ip = $_SERVER['REMOTE_ADDR'];
                         }
                         $actionQuery->execute();
-                        $conn->close();
                         setcookie("uuid", bin2hex($uuid), time() + 21600, "/");
+                        $conn->close();
                         die(messagerArray_l3("Login", "Success", "You are now logged in"));
                     } else {
                         die(messagerArray_l3("Login", "Not found", "Incorrect Password"));
