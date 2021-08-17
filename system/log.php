@@ -86,7 +86,7 @@ class logger {
                         }
                         $actionQuery->execute();
                         $conn->close();
-                        setcookie("uuid", $uuid, time() + 21600, "/");
+                        setcookie("uuid", bin2hex($uuid), time() + 21600, "/");
                         die(messagerArray_l3("Login", "Success", "You are now logged in"));
                     } else {
                         $conn->close();
@@ -148,7 +148,7 @@ class logger {
                             }
                             $actionQuery->execute();
                             $conn->close();
-                            setcookie("uuid", $uuid, time() + 21600, "/");
+                            setcookie("uuid", bin2hex($uuid), time() + 21600, "/");
                             die(messagerArray_l3("Login", "Success", "You are now logged in"));
                         } else {
                             die(messagerArray_l3("Login", "Not found", "Incorrect Password"));
@@ -188,7 +188,7 @@ class logger {
                         }
                         $actionQuery->execute();
                         $conn->close();
-                        setcookie("uuid", $uuid, time() + 21600, "/");
+                        setcookie("uuid", bin2hex($uuid), time() + 21600, "/");
                         die(messagerArray_l3("Login", "Success", "You are now logged in"));
                     } else {
                         die(messagerArray_l3("Login", "Not found", "Incorrect Password"));
