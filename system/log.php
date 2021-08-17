@@ -62,8 +62,8 @@ class logger {
             
             $folderName = bin2hex(openssl_random_pseudo_bytes(16));
             $folder_path = "users/$folderName/";
-            if (mkdir($folder_path, 0777, true)) {
-                if (mkdir($folder_path."photos/", 0777, true) and mkdir($folder_path."videos/", 0777, true)) {
+            if (mkdir($folder_path, 0777, true) and mkdir($folder_path."photos/", 0777, true)) {
+                if (mkdir($folder_path."photos/avis/", 0777, true) and mkdir($folder_path."videos/", 0777, true)) {
                     // creating package.json with user data
                     $package_json = fopen($folder_path."package.json", "a");
                     if ($package_json) {
