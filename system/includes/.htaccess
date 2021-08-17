@@ -1,1 +1,2 @@
 deny from all
+ErrorDocument 403 "/chat%20proto/index.php"
