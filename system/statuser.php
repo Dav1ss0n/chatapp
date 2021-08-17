@@ -6,6 +6,8 @@ if (isset($_POST["status"])) {
     echo $_POST["status"];
     $s = new statuser();
     $s->statusChanger($_POST["status"]);
+} else {
+    header("location: http://localhost/chat proto/");
 }
 
 class statuser {
