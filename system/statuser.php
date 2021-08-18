@@ -3,7 +3,6 @@ ini_set('display_errors',1);
 error_reporting(E_ALL);
 
 if (isset($_POST["status"])) {
-    echo $_POST["status"];
     $s = new statuser();
     $s->statusChanger($_POST["status"]);
 } else {
