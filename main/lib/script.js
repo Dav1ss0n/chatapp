@@ -1,10 +1,23 @@
+const message = document.getElementById("message");
+const messagerDimmer = document.getElementById("messagerDimmer");
+
 document.addEventListener("DOMContentLoaded", function() {
     userStatusChanger("Online");
     sessionInfoGet();
-})
-window.onbeforeunload = function() {
+
+    $(document).ready(function() {
+        $("#dropdown-trigger").click(function(e) {
+            e.preventDefault();
+            $("#dropdown-trigger .caret-dropdown").toggleClass("active");
+        });
+    });
+});
+
+// window.onbeforeunload = null;
+window.onbeforeunload = function(e) {
+    e.preventDefault();
     userStatusChanger("Offline");
-    return true;
+    return null;
 }
 
 function userStatusChanger(status) {
@@ -12,6 +25,10 @@ function userStatusChanger(status) {
     xml.open("POST", "/chat proto/system/statuser.php", true);
     xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xml.send("status="+status);
+    if (status == "Online") {
+        const userStatusDot = document.getElementById("user-status-dot");
+        userStatusDot.style = "color: #00bb16;"
+    }
 }
  
 function sessionInfoGet() {
@@ -30,7 +47,8 @@ function sessionInfoGet() {
 function sessionChecker(array) {
     if (array.Parameter == "Session") {
         if (array.Status == "Expired") {
-            message.innerText = array.Problem;
+            // self.location = "http://localhost/chat%20proto";
+            message.innerText = Object.values(array)[2];
             $("#messagerDimmer").fadeIn(90);
 
             messagerDimmer.addEventListener("click", function() {
@@ -42,10 +60,8 @@ function sessionChecker(array) {
             console.log(sessionEndTime)
     
             let currentTime = new Date().valueOf();
-            console.log(currentTime);
             let sessionTimeoutTime = sessionEndTime-currentTime;
-    
-            console.log(sessionTimeoutTime);
+            console.log(sessionTimeoutTime)
             setTimeout(sessionInfoGet, sessionTimeoutTime)
         }
     }

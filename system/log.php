@@ -124,27 +124,78 @@ class logger {
         require("includes/functions/messager-array.php");
         require("includes/functions/uuid-gnrtr.php");
 
-        $chat = new db_connect();
-        $conn = $chat->connect();
-        $this->conn = $conn;
-        
-        if (strstr($this->login, "@") and strstr($this->login, ".")) {
-                $currentTime = date("Y-m-d H:i:s");
-
-                $prepared = $this->conn->prepare("SELECT * FROM users WHERE Email = ?");
+        if (isset($_COOKIE["uuid"])) {
+            die(messagerArray_l3("Cookie", "Found", "User already logged in"));
+        } else {
+            $chat = new db_connect();
+            $conn = $chat->connect();
+            $this->conn = $conn;
+            
+            if (strstr($this->login, "@") and strstr($this->login, ".")) {
+                    $currentTime = date("Y-m-d H:i:s");
+    
+                    $prepared = $this->conn->prepare("SELECT * FROM users WHERE Email = ?");
+                    $prepared->bind_param("s", $this->login);
+                    $prepared->execute();
+                    $prepared = $prepared->get_result();
+                    if ($prepared) {
+                        if ($prepared->num_rows == 0) {
+                            die(messagerArray_l3("Login", "Not found", "No such an email"));
+                        } else {
+                            while ($row = $prepared->fetch_assoc()) {
+                                $dbPass = $row["Password"];
+                                $uuid = $row["UUID"];
+                            }
+                            $prepared->close();
+    
+                            if (password_verify($this->password, $dbPass)) {
+                                // $lastLogChecker = $this->conn->prepare("SELECT * FROM action WHERE User = ? ORDER BY ID DESC LIMIT 1");
+                                // if (!$lastLogChecker) {
+                                //     die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                                // }
+                                // $lastLogChecker->bind_param("s", $uuid);
+                                // $lastLogChecker->execute();
+                                // $row = $lastLogChecker->get_result()->fetch_assoc();
+                                // if (strtotime($row["Timestamp"])+21600 )
+                                $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp, IP) VALUES (?, ?, ?);");
+                                if (!$actionQuery) {
+                                    die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                                }
+                                $actionQuery->bind_param("sss", $uuid, $currentTime, $ip);
+                                if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+                                    $ip = $_SERVER['HTTP_CLIENT_IP'];
+                                } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                                    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                                } else {
+                                    $ip = $_SERVER['REMOTE_ADDR'];
+                                }
+                                $actionQuery->execute();
+                                setcookie("uuid", bin2hex($uuid), time() + 21600, "/");
+                                $conn->close();
+                                die(messagerArray_l3("Login", "Success", "You are now logged in"));
+                            } else {
+                                die(messagerArray_l3("Login", "Not found", "Incorrect Password"));
+                            }
+                        }
+                    } else {
+                        die(messagerArray_l3("Login", "Not found", "Occured unexpected error with data"));
+                    }
+            } else {
+                $prepared = $this->conn->prepare("SELECT * FROM users WHERE Login = ?");
+                if(!$prepared){ //если ошибка - убиваем процесс и выводим сообщение об ошибке.
+                    die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                }
                 $prepared->bind_param("s", $this->login);
                 $prepared->execute();
                 $prepared = $prepared->get_result();
                 if ($prepared) {
-                    if ($prepared->num_rows == 0) {
-                        die(messagerArray_l3("Login", "Not found", "No such an email"));
-                    } else {
+                    if ($prepared->num_rows == 1) {
                         while ($row = $prepared->fetch_assoc()) {
                             $dbPass = $row["Password"];
                             $uuid = $row["UUID"];
                         }
+            
                         $prepared->close();
-
                         if (password_verify($this->password, $dbPass)) {
                             $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp, IP) VALUES (?, ?, ?);");
                             if (!$actionQuery) {
@@ -165,53 +216,15 @@ class logger {
                         } else {
                             die(messagerArray_l3("Login", "Not found", "Incorrect Password"));
                         }
+                    } else {
+                        die(messagerArray_l3("Login", "Not found", "No such a login"));
                     }
                 } else {
                     die(messagerArray_l3("Login", "Not found", "Occured unexpected error with data"));
                 }
-        } else {
-            $prepared = $this->conn->prepare("SELECT * FROM users WHERE Login = ?");
-            if(!$prepared){ //если ошибка - убиваем процесс и выводим сообщение об ошибке.
-                die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
-            }
-            $prepared->bind_param("s", $this->login);
-            $prepared->execute();
-            $prepared = $prepared->get_result();
-            if ($prepared) {
-                if ($prepared->num_rows == 1) {
-                    while ($row = $prepared->fetch_assoc()) {
-                        $dbPass = $row["Password"];
-                        $uuid = $row["UUID"];
-                    }
-        
-                    $prepared->close();
-                    if (password_verify($this->password, $dbPass)) {
-                        $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp, IP) VALUES (?, ?, ?);");
-                        if (!$actionQuery) {
-                            die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
-                        }
-                        $actionQuery->bind_param("sss", $uuid, $currentTime, $ip);
-                        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-                            $ip = $_SERVER['HTTP_CLIENT_IP'];
-                        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-                        } else {
-                            $ip = $_SERVER['REMOTE_ADDR'];
-                        }
-                        $actionQuery->execute();
-                        setcookie("uuid", bin2hex($uuid), time() + 21600, "/");
-                        $conn->close();
-                        die(messagerArray_l3("Login", "Success", "You are now logged in"));
-                    } else {
-                        die(messagerArray_l3("Login", "Not found", "Incorrect Password"));
-                    }
-                } else {
-                    die(messagerArray_l3("Login", "Not found", "No such a login"));
-                }
-            } else {
-                die(messagerArray_l3("Login", "Not found", "Occured unexpected error with data"));
             }
         }
+
 
     }
 }

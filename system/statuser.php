@@ -25,7 +25,8 @@ class statuser {
         if (!$prepared) {
             die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
         }
-        $prepared->bind_param("sss", $this->status, $currentTime, hex2bin($_COOKIE["uuid"]));
+        $prepared->bind_param("sss", $this->status, $currentTime, $uuid);
+        $uuid = hex2bin($_COOKIE["uuid"]);
         $currentTime = date("Y-m-d H:i:s");
         $prepared->execute();
     }

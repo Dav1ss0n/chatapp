@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 * {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-#info {
+#main {
     position: relative;
 
     width: 100vw;
@@ -14,119 +14,83 @@
     background-color:#e0e0e0cd;
 }
 
-#log-in {
+#pre-profile {
     position: absolute;
     top: 50%;
     left: 50%;
     background-color: rgb(255, 255, 255);
-    width: auto;
-    height: auto;
-    border-radius: 4px;
+    width: 450px;
+    height: 600px;
+    border-radius: 14px;
     transform: translate(-50%, -50%);
     box-shadow: 0 0 5px #d0cfcf;
 }
 
-#log-in-content {
-    padding: 50px 30px;
+#pre-profile-content {
+    border-bottom: 1px solid #e6e6e6;
+    margin: 30px;
 }
 
-input[type="text"], input[type="password"] {
-    width: 300px;
-    margin: 10px 15px 2px;
-    padding: 5px;
-    background-color: rgb(237, 237, 237);
-    border: 2px solid rgb(237, 237, 237);
-    border-radius: 3px;
-}
-
-#login, #password {
-    width: 316px;
-}
-
-.submit {
-    width: 130px;
-    height: 30px;
-    margin: 10px 15px;
-    background-color: hsla(26, 100%, 65%, 0.809);
-    border: 2px solid hsla(26, 100%, 65%, 0.809);
-    border-radius: 4px;
-    color:hsl(0, 0%, 100%);
-}
-.submit:hover {
-    background-color: hsla(26, 100%, 77%, 0.809);
-}
-#reg-message {
+.user-avatar {
+    display: inline-block;
+    vertical-align: middle;
     text-align: center;
-    font-size: 13px;
-    margin: 5px 5px 5px 20px;
-    color:#47afff
-}
-#registerOpen {
-    color:#b3ee2b
-}
-#registerOpen:hover {
-    cursor: pointer;
-    background-color: hsl(0, 0%, 99%);
-}
-
-button:hover {
-    cursor:pointer;
-}
-.error-messages {
-    width: 300px;
-    margin: 5px 15px;
-    padding: 6px;
+    line-height: 30px;
     
-    background-color:hsl(0, 93%, 70%);
-    border-radius: 4px;
-    overflow: auto;
-    display: none;
-
-    text-align: center;
-    font-size: 12px;
+    width: 50px;
+    height: 50px;
+    
+    margin: 5px;
+  
+    border-radius: 50%;
+    background-color: white;
+    /* background:url('/chat proto/avi-for-yt-dvs.jpg');
+    background-size: 3rem 3rem; */
+    overflow:hidden;
+}
+.user-avatar img {
+    width: 50px;
+    height: 50px;
 }
 
-#registerBoxDimmer {
+#username {
     position: relative;
-    width: 100vw;
-    height: 100vh;
-
-    background-color: rgba(0,0,0,0.5);
-    display: none;
+    top: -10px;
+    left: 20px;
+    font-size: 18px;
+    font-weight: 500;
 }
 
-#registerBox {
-    width: 390px;
-    height: auto;
+#user-status {
+    position: relative;
+    top: -25px;
+    left: 105px;
+}
+#user-status-dot {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    background-color: rgb(255, 255, 255);
-    border-radius: 4px;
-    transform: translate(-50%, -50%);
-}
+    top: 20px;
+    left: 114px;
 
-#registerBoxContent {
-    padding: 40px 30px;
+    font-size: 60px;
 }
-/* 
-#register {
-    position: relative;
-    top: 10px;
-} */
+#bio-edit-button {
+    position: absolute;
+    top: 45px;
+    left: 325px;
+    width: 50px;
+    height: 20px;
 
-#regCloser {
-	position: absolute;
-	top: 0;
-	right: 5px;
-	font-size: 2rem;
-	
-	color: hsl(0, 0%, 50%);
-	text-decoration: none;
-	transform: rotate(45deg);
-    cursor: pointer;    
+    cursor: pointer;
 }
+#settings-enter-button {
+    position: absolute;
+    top: 43px;
+    left: 370px;
+    width: 50px;
+    height: 22px;
 
+    cursor: pointer;
+}
 
 #messagerDimmer {
     position: absolute;
@@ -144,7 +108,7 @@ button:hover {
     top: 50%;
     left: 50%;
     background-color: rgb(255, 255, 255);
-    border-radius: 4px;
+    border-radius: 14px;
     transform: translate(-50%, -50%);
 }
 #messagerContent {
@@ -154,20 +118,3 @@ button:hover {
     text-align:center;
     color: hsl(0, 93%, 70%)
 }
-
-/* #regEmail {
-    width: 215px;
-    margin-right: 0;
-}
-
-#emailConfirm {
-    width: 80px;
-    height: 33px;
-    background-color: hsla(26, 100%, 65%, 0.809);
-    border: 2px solid hsla(26, 100%, 65%, 0.809);
-    border-radius: 4px;
-    color:hsl(0, 0%, 100%);
-}
-#emailConfirm:hover {
-    background-color: hsla(26, 100%, 77%, 0.809);
-} */
