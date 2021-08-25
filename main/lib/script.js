@@ -4,13 +4,6 @@ const messagerDimmer = document.getElementById("messagerDimmer");
 document.addEventListener("DOMContentLoaded", function() {
     userStatusChanger("Online");
     sessionInfoGet();
-
-    $(document).ready(function() {
-        $("#dropdown-trigger").click(function(e) {
-            e.preventDefault();
-            $("#dropdown-trigger .caret-dropdown").toggleClass("active");
-        });
-    });
 });
 
 // window.onbeforeunload = null;
@@ -25,6 +18,7 @@ function userStatusChanger(status) {
     xml.open("POST", "/chat proto/system/statuser.php", true);
     xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xml.send("status="+status);
+    document.getElementById("user-status").innerText = status;
     if (status == "Online") {
         const userStatusDot = document.getElementById("user-status-dot");
         userStatusDot.style = "color: #00bb16;"
