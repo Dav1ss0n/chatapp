@@ -3,6 +3,8 @@
 if (isset($_GET["inputString"])) {
     $string = "%". $_GET["inputString"] ."%";
     $s = new userSearch($string);
+} else {
+    header("location: http://localhost/chat proto/");
 }
 
 
