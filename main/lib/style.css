@@ -65,6 +65,8 @@
     position: relative;
     top: -25px;
     left: 105px;
+
+    user-select: none;
 }
 #user-status-dot {
     position: absolute;
@@ -72,6 +74,7 @@
     left: 114px;
 
     font-size: 60px;
+    user-select: none;
 }
 #bio-edit-button {
     position: absolute;
