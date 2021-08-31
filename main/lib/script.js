@@ -4,6 +4,7 @@ const messagerDimmer = document.getElementById("messagerDimmer");
 document.addEventListener("DOMContentLoaded", function() {
     userStatusChanger("Online");
     sessionInfoGet();
+    userInfoGet();
 });
 
 // window.onbeforeunload = null;
@@ -60,3 +61,52 @@ function sessionChecker(array) {
         }
     }
 }
+
+function userInfoGet() {
+    let xml = new XMLHttpRequest();
+    xml.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            accInfoParse(this.response);
+        }
+    }
+    xml.open("POST", "/chat proto/system/user-info-load.php", true);
+    xml.responseType = "json";
+    xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xml.send();
+}
+
+
+function AvatarLetters(userName) {
+    let userNames = document.querySelectorAll(".username");
+    let avatars = document.querySelectorAll(".user-avatar img");
+    
+    for (let i = 0; i<userNames.length; i++) {
+      let singleUserName = userNames[i].innerText;
+      console.log(singleUserName);
+      let firstLetter = singleUserName.slice(0, 1);
+      singleUserName = singleUserName.replace(/[aeiou]/ig,'');
+      
+      singleUserName = singleUserName.slice(1, 2);
+      singleUserName = firstLetter + singleUserName;
+      avatars[i].alt = singleUserName;
+    }
+
+    // let avatar = document.getElementById("user-avatar-img");
+
+    // let singleUserName = userName;
+    // let firstLetter = singleUserName.slice(0, 1);
+    // singleUserName = singleUserName.replace(/[aeiou]/ig,'');
+    
+    // singleUserName = singleUserName.slice(1, 2);
+    // let alt = firstLetter + singleUserName;
+    // console.log(alt);
+
+    // avatar.setAttribute('alt', alt);
+  }
+
+  function accInfoParse(array) {
+      document.getElementById("username").innerText = array.username;
+      if (!array.avi) {
+          AvatarLetters(array.username);
+      }
+  }

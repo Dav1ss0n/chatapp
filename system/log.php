@@ -98,6 +98,15 @@ class logger {
                         $insert_status->bind_param("sss", $uuid, $userStatus, $currentTime);
                         $userStatus = "Online";
                         $insert_status->execute();
+
+                        $insert_bio = $this->conn->prepare("INSERT INTO bio (User, Bio, DateCreation) VALUES (?, ?, ?);");
+                        if (!$insert_bio) {
+                            die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                        }
+                        $insert_bio->bind_param("sss", $uuid, $text ,$currentTime);
+                        $text = "";
+                        $insert_bio->execute();
+                        
                         $conn->close();
                         die(messagerArray_l3("Login", "Success", "You are now logged in"));
                     } else {

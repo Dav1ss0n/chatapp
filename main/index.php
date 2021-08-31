@@ -23,9 +23,9 @@ if (!isset($_COOKIE["uuid"])) {
         <div id="pre-profile">
             <div id="pre-profile-content">
                 <div class="user-avatar">
-                    <img src="../avi-for-yt-dvs.jpg" alt>
+                    <img id="user-avatar-img" src="#" alt>
                 </div>
-                <span id="username">Dave Dadabaev</span>
+                <span class="username" id="username">Dave Dadabaev</span>
                 <p id="user-status-dot">.</p>
                 <p id="user-status">Active now</p>
                 <svg id="bio-edit-button" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
