@@ -121,3 +121,40 @@
     text-align:center;
     color: hsl(0, 93%, 70%)
 }
+
+
+
+.popup-windows-dimmer {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top:0;
+    left:0;
+    background-color: rgba(0,0,0,0.5);
+    display: none;
+}
+.popup-windows {
+    width: 390px;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 14px;
+    transform: translate(-50%, -50%);
+}
+.popup-windows-content {
+    padding:30px;
+}
+.x {
+    position: absolute;
+	top: -2px;
+	right: 8px;
+	font-size: 40px;
+	
+	color: hsl(0, 0%, 50%);
+	text-decoration: none;
+	transform: rotate(45deg);
+    cursor: pointer;  
+    user-select: none;
+}

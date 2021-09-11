@@ -1,10 +1,31 @@
 const message = document.getElementById("message");
 const messagerDimmer = document.getElementById("messagerDimmer");
+const bioEditButton = document.getElementById("bio-edit-button");
+const settingsEnterButton = document.getElementById("settings-enter-button");
+const x = document.querySelector(".x");
 
 document.addEventListener("DOMContentLoaded", function() {
     userStatusChanger("Online");
     sessionInfoGet();
     userInfoGet();
+
+    bioEditButton.addEventListener("click", () => {
+        $("#user-info-changer-dimmer").fadeIn(90);
+    });
+    settingsEnterButton.addEventListener("click", () => {
+        $("#user-settings-changer-dimmer").fadeIn(90);
+    });
+
+    $("#user-info-changer-dimmer").click(() => {
+        if (event.target.id == "user-info-changer-dimmer" || event.target.id == "user-info-changer-closer") {
+            $("#user-info-changer-dimmer").fadeOut(90);
+        }
+    })
+    $("#user-settings-changer-dimmer").click(() => {
+        if (event.target.id == "user-settings-changer-dimmer" || event.target.id == "user-settings-changer-closer") {
+            $("#user-settings-changer-dimmer").fadeOut(90);
+        }
+    })
 });
 
 // window.onbeforeunload = null;

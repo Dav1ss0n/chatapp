@@ -38,6 +38,21 @@ if (!isset($_COOKIE["uuid"])) {
             </div>
         </div>            
 
+        <div class="popup-windows-dimmer" id="user-info-changer-dimmer">
+            <div class="popup-windows">
+                <div class="popup-windows-content">
+                    <span class="x" id="user-info-changer-closer">+</span>
+                </div>
+            </div>
+        </div>
+        <div class="popup-windows-dimmer" id="user-settings-changer-dimmer">
+            <div class="popup-windows">
+                <div class="popup-windows-content">
+                    <span class="x" id="user-settings-changer-closer">+</span>
+                </div>
+            </div>
+        </div>
+
         <div id="messagerDimmer">
             <div id="messager">
                 <div id="messagerContent">
