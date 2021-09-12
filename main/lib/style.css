@@ -79,13 +79,22 @@
 #bio-edit-button {
     position: absolute;
     top: 45px;
-    left: 325px;
+    left: 270px;
     width: 50px;
     height: 20px;
 
     cursor: pointer;
 }
 #settings-enter-button {
+    position: absolute;
+    top: 43px;
+    left: 320px;
+    width: 50px;
+    height: 22px;
+
+    cursor: pointer;
+}
+#signOut-button {
     position: absolute;
     top: 43px;
     left: 370px;
@@ -157,4 +166,35 @@
 	transform: rotate(45deg);
     cursor: pointer;  
     user-select: none;
+}
+
+#confirmerContent {
+    padding: 30px;
+
+    text-align: center;
+}
+#confirmerActions button {
+    padding: 0 50px;
+
+    width: 150px;
+    height: 25px;
+    position:relative;
+    top: 10px;
+    border: 2px solid hsla(26, 100%, 65%, 0.809);
+    border-radius: 4px;
+    color:hsl(0, 0%, 100%);
+}
+#confirmerCancel {
+    background-color: hsl(26, 100%, 65%);
+}
+#confirmerApply {
+    background-color: hsla(0, 100%, 50%, 0.816);
+}
+#confirmerCancel:hover {
+    background-color: hsla(26, 100%, 45%, 0.645);
+    cursor: pointer;
+}
+#confirmerApply:hover {
+    background-color: hsl(0, 100%, 56%);
+    cursor: pointer;
 }

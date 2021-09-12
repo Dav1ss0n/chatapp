@@ -2,9 +2,12 @@ const message = document.getElementById("message");
 const messagerDimmer = document.getElementById("messagerDimmer");
 const bioEditButton = document.getElementById("bio-edit-button");
 const settingsEnterButton = document.getElementById("settings-enter-button");
+const signOutButton = document.getElementById("signOut-button");
 const x = document.querySelector(".x");
 
 document.addEventListener("DOMContentLoaded", function() {
+    // $("#confirmerDimmer").fadeIn(90);
+
     userStatusChanger("Online");
     sessionInfoGet();
     userInfoGet();
@@ -26,6 +29,17 @@ document.addEventListener("DOMContentLoaded", function() {
             $("#user-settings-changer-dimmer").fadeOut(90);
         }
     })
+
+    signOutButton.addEventListener("click", () => {
+        $("#confirmerDimmer").fadeIn(90);
+    })
+    $("#confirmerCancel").click(() => {
+        $("#confirmerDimmer").fadeOut(90);
+    });
+    $("#confirmerApply").click(() => {
+        userStatusChanger("Offline");
+        self.location = "http://localhost/chat proto/";
+    });
 });
 
 // window.onbeforeunload = null;
