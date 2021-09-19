@@ -47,8 +47,8 @@ input[type="text"], input[type="password"] {
     width: 130px;
     height: 30px;
     margin: 10px 15px;
-    background-color: hsla(26, 100%, 65%, 0.809);
-    border: 2px solid hsla(26, 100%, 65%, 0.809);
+    background-color: hsla(26, 100%, 65%);
+    border: 2px solid hsla(26, 100%, 65%);
     border-radius: 4px;
     color:hsl(0, 0%, 100%);
 }

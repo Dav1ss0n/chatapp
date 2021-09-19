@@ -4,9 +4,13 @@ const bioEditButton = document.getElementById("bio-edit-button");
 const settingsEnterButton = document.getElementById("settings-enter-button");
 const signOutButton = document.getElementById("signOut-button");
 const x = document.querySelector(".x");
+let userBio;
+
 
 document.addEventListener("DOMContentLoaded", function() {
     // $("#confirmerDimmer").fadeIn(90);
+    
+    setTimeout($('.slide-down-messager').slideUp(300), 1000000);
 
     userStatusChanger("Online");
     sessionInfoGet();
@@ -38,8 +42,41 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     $("#confirmerApply").click(() => {
         userStatusChanger("Offline");
-        self.location = "http://localhost/chat proto/";
+        // self.location = "http://localhost/chat proto/";
     });
+    $("#confirmerDimmer").click(() => {
+        if (event.target.id == "confirmerDimmer") {
+            $("#confirmerDimmer").fadeOut(90);
+        }
+    })
+
+    document.getElementById("user-bio-clear").addEventListener("click", () => {
+        document.getElementById("user-bio").value = "";
+    })
+    document.getElementById("user-bio").addEventListener("keyup", () => {
+        document.getElementById("user-bio").value
+        
+        let userBioRemainingSymbols = 100 - document.getElementById("user-bio").value.length;
+        document.getElementById("user-bio-remaining-symbols").innerText = userBioRemainingSymbols+" symbols left";
+        if (userBioRemainingSymbols == 0 || userBioRemainingSymbols < 0) {
+            document.getElementById("user-bio").value = document.getElementById("user-bio").value.substr(0, 100);
+            document.getElementById("user-bio-remaining-symbols").innerText = "0 symbols left";
+        }
+        if (document.getElementById("user-bio").value !== userBio) {
+            document.getElementById("user-bio-save").disabled=false;
+        }
+    })
+    document.getElementById("user-bio-save").addEventListener("click", () => {
+        // console.log(document.getElementById("user-bio").value);
+        userChange("bio", document.getElementById("user-bio").value);
+        $('.slide-down-messager').slideDown(300);
+        $(".x-slide-down").click(() => {
+            $('.slide-down-messager').slideUp(300);
+        })
+        setTimeout(() => {
+            $('.slide-down-messager').slideUp(300);
+        }, 10000)
+    })
 });
 
 // window.onbeforeunload = null;
@@ -51,13 +88,15 @@ window.onbeforeunload = function(e) {
 
 function userStatusChanger(status) {
     let xml = new XMLHttpRequest();
-    xml.open("POST", "/chat proto/system/statuser.php", true);
+    xml.open("POST", "/chat proto/system/statuser.php", false);
     xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xml.send("status="+status);
     document.getElementById("user-status").innerText = status;
     if (status == "Online") {
         const userStatusDot = document.getElementById("user-status-dot");
         userStatusDot.style = "color: #00bb16;"
+    } else if (status == "Offline") {
+        self.location = "http://localhost/chat proto";
     }
 }
  
@@ -141,7 +180,29 @@ function AvatarLetters(userName) {
 
   function accInfoParse(array) {
       document.getElementById("username").innerText = array.username;
+
+      document.getElementById("user-bio").value = array.bio;
+      document.getElementById("user-bio-remaining-symbols").innerText = 100 - array.bio.length+" symbols left";
+      userBio = array.bio;
       if (!array.avi) {
           AvatarLetters(array.username);
       }
+
   }
+
+
+function userChange(parameter, change) {
+    let xml = new XMLHttpRequest();
+    xml.onreadystatechange = () => {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText === "") {
+                console.log(this.responseText);
+            } else {
+
+            }
+        }
+    }
+    xml.open("POST", "/chat proto/system/user-change.php", true);
+    xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xml.send("parameter="+parameter+"&change="+change);
+}

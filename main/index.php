@@ -46,6 +46,12 @@ if (!isset($_COOKIE["uuid"])) {
             <div class="popup-windows">
                 <div class="popup-windows-content">
                     <span class="x" id="user-info-changer-closer">+</span>
+
+                    <label for="user-bio-label" id="label-user-bio">Your bio:</label>
+                    <input type="text" id="user-bio">
+                    <span id="user-bio-remaining-symbols">100 symbols left</span> <br/>
+                    <button id="user-bio-clear">Clear</button>
+                    <button id="user-bio-save" disabled>Save</button>
                 </div>
             </div>
         </div>
@@ -66,12 +72,18 @@ if (!isset($_COOKIE["uuid"])) {
                 </div>
             </div>
         </div>
+        <div class="slide-down-messager">
+            <div class="slide-down-messager-dimmer-content">
+                <span class="x-slide-down">+</span>
+                <span class="slide-down-message">Changes were saved</span>
+            </div>
+        </div>
         <div id="confirmerDimmer" class="popup-windows-dimmer">
             <div id="confirmer" class="popup-windows">
                 <div id="confirmerContent" class="popup-windows-content">
                     <span id="confrimerMessage">Are you sure?</span> <br/>
                     <div id="confirmerActions">
-                    <button id="confirmerCancel">Cancel</button> <button id="confirmerApply">Exit</button>
+                    <button id="confirmerCancel">Cancel</button> <button id="confirmerApply" class="red-button">Exit</button>
                     </div>
                 </div>
             </div>

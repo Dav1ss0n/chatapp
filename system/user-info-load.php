@@ -67,10 +67,11 @@ class accInfo {
             }
             $select_bio->bind_param("s", $this->uuid);
             $select_bio->execute();
-            if ($select_bio->get_result()->num_rows == 0) {
+            $result = $select_bio->get_result();
+            $row = $result->fetch_assoc();
+            if (empty($row["Bio"])) {
                 $user_bio = "";
             } else {
-                $row = $select_bio->get_result()->fetch_assoc();
                 $user_bio = $row["Bio"];
             }
 

@@ -180,21 +180,131 @@
     height: 25px;
     position:relative;
     top: 10px;
-    border: 2px solid hsla(26, 100%, 65%, 0.809);
     border-radius: 4px;
-    color:hsl(0, 0%, 100%);
 }
-#confirmerCancel {
-    background-color: hsl(26, 100%, 65%);
+#label-user-bio {
+    font-size: 14px;
+    color: rgb(170, 170, 170);
 }
-#confirmerApply {
-    background-color: hsla(0, 100%, 50%, 0.816);
+
+
+.red-button {
+    border: 2px solid rgb(255, 37, 37);
+    
+    background-color: rgb(255, 255, 255);
+    color: rgb(255, 37, 37);
 }
-#confirmerCancel:hover {
-    background-color: hsla(26, 100%, 45%, 0.645);
+.red-button:hover {
+    border: 2px solid rgb(255, 37, 37);
+
+    background-color: rgb(255, 37, 37);
+    color: white;
     cursor: pointer;
 }
-#confirmerApply:hover {
-    background-color: hsl(0, 100%, 56%);
+
+
+
+.slide-down-messager-dimmer {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top:0;
+    left:0;
+    background-color: rgba(0,0,0,0.5);
+    display: none;
+}
+.slide-down-messager {
+    width: 250px;
+    height: auto;
+    position: absolute;
+    top: 3%;
+    left: 50%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 14px;
+    border:2px solid #2fc01c;
+    transform: translate(-50%, -50%);
+
+    z-index: 99;
+    display: none;
+}
+.slide-down-messager-dimmer-content {
+    padding:10px;
+    font-size: 14px;
+    text-align: center;
+    color: #2fc01c;
+}
+.x-slide-down {
+    position: absolute;
+	top: 1px;
+	right: 8px;
+	font-size: 30px;
+	
+	color: hsl(0, 0%, 73%);
+	text-decoration: none;
+	transform: rotate(45deg);
+    cursor: pointer;  
+    user-select: none;
+}
+
+
+
+
+input[type="text"], input[type="password"] {
+    width: 330px;
+    height: 100px;
+    /* padding: 5px; */
+    background-color: rgb(237, 237, 237);
+    border: 2px solid rgb(237, 237, 237);
+    border-radius: 3px;
+}
+input[type="button"], input[type="submit"], button {
+    width: 130px;
+    height: 30px;
+    /* background-color: hsla(26, 100%, 65%); */
+    background-color: rgb(255, 255, 255);
+    border: 2px solid hsla(26, 100%, 65%);
+    border-radius: 4px;
+    /* color:hsl(0, 0%, 100%); */
+    color:hsla(26, 100%, 65%);
+    transition: 120ms;
     cursor: pointer;
 }
+input[type="button"]:disabled, input[type="submit"]:disabled, button:disabled {
+    /* background-color: rgba(255, 168, 101, 0.837); */
+    background-color: rgba(255, 255, 255, 0.679);
+    border: 2px solid rgba(255, 168, 101, 0.837);
+}
+input[type="button"]:disabled:hover, input[type="submit"]:disabled:hover, button:disabled:hover {
+    background-color: rgba(255, 168, 101, 0.837);
+    color: white;
+    border: 2px solid rgba(255, 168, 101, 0.837);
+    cursor: not-allowed;
+}
+input[type="button"]:hover, input[type="submit"]:hover, button:hover {
+    background-color: rgb(252, 140, 54);
+    border: 2px solid rgb(252, 140, 54);
+    color: white;
+}
+
+#user-bio-save {
+    margin-left: 65px;
+}
+#user-bio-clear {
+    border: 2px solid rgb(255, 37, 37);
+    background-color: rgb(255, 255, 255);
+    color: rgb(255, 37, 37);
+}
+#user-bio-clear:hover {
+    background-color: rgb(255, 37, 37);
+    color: white;
+    cursor: pointer;
+}
+#user-info-changer-dimmer button {
+    margin-top: 10px;
+}
+#user-bio-remaining-symbols {
+    font-size: 12px;
+    color: rgb(170, 170, 170);
+}
+
+
