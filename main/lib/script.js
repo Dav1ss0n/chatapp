@@ -67,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     })
     document.getElementById("user-bio-save").addEventListener("click", () => {
+        document.getElementById("user-bio-save").disabled=true;
         // console.log(document.getElementById("user-bio").value);
         userChange("bio", document.getElementById("user-bio").value);
         $('.slide-down-messager').slideDown(300);

@@ -48,7 +48,7 @@ if (!isset($_COOKIE["uuid"])) {
                     <span class="x" id="user-info-changer-closer">+</span>
 
                     <label for="user-bio-label" id="label-user-bio">Your bio:</label>
-                    <input type="text" id="user-bio">
+                    <input type="text" id="user-bio" autocomplete="off">
                     <span id="user-bio-remaining-symbols">100 symbols left</span> <br/>
                     <button id="user-bio-clear">Clear</button>
                     <button id="user-bio-save" disabled>Save</button>
