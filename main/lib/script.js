@@ -89,7 +89,7 @@ window.onbeforeunload = function(e) {
 
 function userStatusChanger(status) {
     let xml = new XMLHttpRequest();
-    xml.open("POST", "/chat proto/system/statuser.php", false);
+    xml.open("POST", "/chat proto/system/statuser.php", true);
     xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xml.send("status="+status);
     document.getElementById("user-status").innerText = status;
@@ -127,11 +127,11 @@ function sessionChecker(array) {
         } else if (array.Status == "Ok") {
             let lastEntranceID = array.Problem[0];
             let sessionEndTime = array.Problem[1]*1000;
-            console.log(sessionEndTime)
+            // console.log(sessionEndTime)
     
             let currentTime = new Date().valueOf();
             let sessionTimeoutTime = sessionEndTime-currentTime;
-            console.log(sessionTimeoutTime)
+            // console.log(sessionTimeoutTime)
             setTimeout(sessionInfoGet, sessionTimeoutTime)
         }
     }
@@ -157,7 +157,7 @@ function AvatarLetters(userName) {
     
     for (let i = 0; i<userNames.length; i++) {
       let singleUserName = userNames[i].innerText;
-      console.log(singleUserName);
+    //   console.log(singleUserName);
       let firstLetter = singleUserName.slice(0, 1);
       singleUserName = singleUserName.replace(/[aeiou]/ig,'');
       
@@ -194,15 +194,15 @@ function AvatarLetters(userName) {
 
 function userChange(parameter, change) {
     let xml = new XMLHttpRequest();
-    xml.onreadystatechange = () => {
-        if (this.readyState == 4 && this.status == 200) {
-            if (this.responseText === "") {
-                console.log(this.responseText);
-            } else {
+    // xml.onreadystatechange = () => {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //         if (this.responseText !== "") {
+    //             console.log(this.responseText);
+    //         } else {
 
-            }
-        }
-    }
+    //         }
+    //     }
+    // }
     xml.open("POST", "/chat proto/system/user-change.php", true);
     xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xml.send("parameter="+parameter+"&change="+change);
