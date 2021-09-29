@@ -43,14 +43,10 @@ input[type="text"], input[type="password"] {
     width: 316px;
 }
 
-.submit {
-    width: 130px;
+#submit {
+    width: 124px;
     height: 30px;
     margin: 10px 15px;
-    background-color: hsla(26, 100%, 65%);
-    border: 2px solid hsla(26, 100%, 65%);
-    border-radius: 4px;
-    color:hsl(0, 0%, 100%);
 }
 .submit:hover {
     background-color: hsla(26, 100%, 77%, 0.809);
@@ -109,11 +105,10 @@ button:hover {
 #registerBoxContent {
     padding: 40px 30px;
 }
-/* 
+
 #register {
-    position: relative;
-    top: 10px;
-} */
+    margin: 10px 15px;
+}
 
 #regCloser {
 	position: absolute;
@@ -171,3 +166,33 @@ button:hover {
 #emailConfirm:hover {
     background-color: hsla(26, 100%, 77%, 0.809);
 } */
+
+
+input[type="button"], input[type="submit"], button {
+    width: 129px;
+    height: 25px;
+    /* background-color: hsla(26, 100%, 65%); */
+    background-color: rgb(255, 255, 255);
+    border: 2px solid hsla(26, 100%, 65%);
+    border-radius: 4px;
+    /* color:hsl(0, 0%, 100%); */
+    color:hsla(26, 100%, 65%);
+    transition: 120ms;
+    cursor: pointer;
+}
+input[type="button"]:disabled, input[type="submit"]:disabled, button:disabled {
+    /* background-color: rgba(255, 168, 101, 0.837); */
+    background-color: rgba(255, 255, 255, 0.679);
+    border: 2px solid rgba(255, 168, 101, 0.837);
+}
+input[type="button"]:disabled:hover, input[type="submit"]:disabled:hover, button:disabled:hover {
+    background-color: rgba(255, 168, 101, 0.837);
+    color: white;
+    border: 2px solid rgba(255, 168, 101, 0.837);
+    cursor: not-allowed;
+}
+input[type="button"]:hover, input[type="submit"]:hover, button:hover {
+    background-color: rgb(252, 140, 54);
+    border: 2px solid rgb(252, 140, 54);
+    color: white;
+}

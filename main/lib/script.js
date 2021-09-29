@@ -10,7 +10,7 @@ let userBio;
 document.addEventListener("DOMContentLoaded", function() {
     // $("#confirmerDimmer").fadeIn(90);
     
-    setTimeout($('.slide-down-messager').slideUp(300), 1000000);
+    // setTimeout($('.slide-down-messager').slideUp(300), 1000000);
 
     userStatusChanger("Online");
     sessionInfoGet();

@@ -25,7 +25,7 @@ if (isset($_COOKIE["uuid"])) {
                     <br/>
                     <div id="error-messages" class="error-messages"></div>
                     <span id="reg-message">Not a member? <a id="registerOpen">Register</a></span>
-                    <button id="submit" class="submit">Enter</button>
+                    <input type="button" id="submit" value="Enter">
                 </form>
             </div>
         </div>
@@ -44,7 +44,7 @@ if (isset($_COOKIE["uuid"])) {
                     <br/>
                     <input type="password" id="regPassC2" placeholder="Confirm Pasword">
                     <div id="reg-error-messages" class="error-messages">error</div>
-                    <button id="register" class="submit">Enter</button>
+                    <button id="register">Enter</button>
                 </div>
             </div>
         </div>
