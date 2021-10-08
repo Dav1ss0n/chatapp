@@ -1,0 +1,60 @@
+{
+    "Message statuses": {
+        "0": "deleted",
+        "1": "sent",
+        "2": "delivered",
+        "3": "read"
+    },
+
+    "Contacts": {
+        "0": { 
+            "name":  "Ragen",
+            "uuid": "32330d993",
+            "user_status": "Active now",
+            "av": "rhmddn.jpeg",
+            "last_message": "So, r u gonna now?",
+            "last_message_status": 2,
+            "last_message_time": "2021-10-08 18:05:43"
+        },
+        "1": { 
+            "name":  "Jacob",
+            "uuid": "5409235d6",
+            "user_status": "Offline",
+            "av": "Jmshd.jpeg",
+            "last_message": "You: Wanna travel to Istambul?",
+            "last_message_status": 1,
+            "last_message_time": "2021-10-08 15:01:43"
+        },
+        "2": { 
+            "name":  "Harry",
+            "uuid": "1095df334",
+            "user_status": "Offline",
+            "av": "hmd.jpeg",
+            "last_message": "Let's gamble, bitch",
+            "last_message_status": 3,
+            "last_message_time": "2021-10-05 23:52:43"
+        },
+        "3": { 
+            "name":  "Work Group",
+            "gid": "323d4-62034hj933",
+            "user_status": "Active now",
+            "av": "work.jpeg",
+            "last_message": "Ethan: Where r u guys?",
+            "last_message_status": 3,
+            "last_message_time": "2021-10-04 12:35:20"
+        },
+        "4": {
+            "name": "Ethan",
+            "uuid": "2942h9",
+            "user_status": "Offline",
+            "av": "10239348.png",
+            "last_message": "You: OMG",
+            "last_message_status": "3",
+            "last_message_time":"2021-10-02 11:52:43"
+            }
+    }
+}
+
+
+
+
