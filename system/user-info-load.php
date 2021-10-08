@@ -75,8 +75,23 @@ class accInfo {
                 $user_bio = $row["Bio"];
             }
 
+            //taking user's names
+            $select_names = $this->conn->prepare("SELECT first_name, last_name FROM usernames WHERE uuid = ?");
+            if (!$select_names) {
+                die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+            }
+            $select_names->bind_param("s", $this->uuid);
+            $select_names->execute();
+            $res = $select_names->get_result();
+            while ($row = $res->fetch_assoc()) {
+                $firstname = $row["first_name"];
+                $lastname = $row["last_name"];
+            }
+
             $user_info = array(
                 "username" => $user_name,
+                "firstname" => $firstname,
+                "lastname" => $lastname,
                 "uuid" => $_COOKIE["uuid"],
                 "bio" => $user_bio,
                 

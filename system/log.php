@@ -20,6 +20,8 @@ if (isset($_POST["param"])) {
 
 class logger {
     private $login;
+    private $firstName;
+    private $lastName;
     private $email;
     private $password;
 
@@ -27,8 +29,10 @@ class logger {
 
     final public function register(array $info) {
         $this->login = trim($info[0]);
-        $this->email = trim($info[1]);
-        $this->password = trim($info[2]);
+        $this->firstName = trim($info[1]);
+        $this->lastName = trim($info[2]);
+        $this->email = trim($info[3]);
+        $this->password = trim($info[4]);
 
         require("includes/crypto/encrypt/basic_v1.php");
         require("includes/databases/chat.php");
@@ -106,6 +110,13 @@ class logger {
                         $insert_bio->bind_param("sss", $uuid, $text ,$currentTime);
                         $text = "";
                         $insert_bio->execute();
+
+                        $insert_names = $this->conn->prepare("INSERT INTO usernames (uuid, first_name, last_name) VALUES (?, ?, ?);");
+                        if (!$insert_names) {
+                            die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                        }
+                        $insert_names->bind_param("sss", $uuid, $this->firstName, $this->lastName);
+                        $insert_names->execute();
                         
                         $conn->close();
                         die(messagerArray_l3("Login", "Success", "You are now logged in"));

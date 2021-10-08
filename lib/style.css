@@ -196,3 +196,8 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover {
     border: 2px solid rgb(252, 140, 54);
     color: white;
 }
+
+#names input {
+    width: 135px;
+    margin: 10px 11px 2px 15px;
+  }

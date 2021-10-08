@@ -37,6 +37,11 @@ if (isset($_COOKIE["uuid"])) {
                     <br/>
                     <input type="text" id="regLogin" placeholder="Your Login">
                     <br/>
+                    <div id="names">
+                        <input type="text" id="regName1" placeholder="Your First Name">
+                        <input type="text" id="regName2" placeholder="Your Last Name">
+                    </div>
+                    <br/>
                     <input type="text" id="regEmail" placeholder="Your Email">
                     <!-- <button id="emailConfirm">Confirm</button> -->
                     <br/>
