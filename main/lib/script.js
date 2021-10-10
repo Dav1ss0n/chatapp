@@ -116,11 +116,13 @@ function sessionInfoGet() {
 
 function sessionChecker(array) {
     if (array.Parameter == "Session") {
-        if (array.Status == "Expired") {
+        if (array.Status == "Not found") {
             // self.location = "http://localhost/chat%20proto";
             message.innerText = Object.values(array)[2];
             $("#messagerDimmer").fadeIn(90);
-
+            setTimeout(()=> {
+                self.location = "http://localhost/chat%20proto";
+            }, 10000);
             messagerDimmer.addEventListener("click", function() {
                 self.location = "http://localhost/chat%20proto";
             })
@@ -131,7 +133,7 @@ function sessionChecker(array) {
     
             let currentTime = new Date().valueOf();
             let sessionTimeoutTime = sessionEndTime-currentTime;
-            // console.log(sessionTimeoutTime)
+            console.log(sessionTimeoutTime)
             setTimeout(sessionInfoGet, sessionTimeoutTime)
         }
     }
