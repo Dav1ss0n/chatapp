@@ -183,6 +183,7 @@ function AvatarLetters(userName) {
 
   function accInfoParse(array) {
       document.getElementById("username").innerText = array.firstname+" "+array.lastname;
+      document.getElementById("username-shorted").value = array.username;
 
       document.getElementById("user-bio").value = array.bio;
       document.getElementById("user-bio-remaining-symbols").innerText = 100 - array.bio.length+" symbols left";

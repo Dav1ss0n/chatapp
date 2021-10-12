@@ -25,7 +25,7 @@ if (!isset($_COOKIE["uuid"])) {
                 <div class="user-avatar">
                     <img id="user-avatar-img" src="#" alt>
                 </div>
-                <span class="username" id="username">Dave Dadabaev</span>
+                <span class="username" id="username"></span>
                 <p id="user-status-dot">.</p>
                 <p id="user-status">Active now</p>
                 <svg id="bio-edit-button" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
@@ -47,7 +47,10 @@ if (!isset($_COOKIE["uuid"])) {
                 <div class="popup-windows-content">
                     <span class="x" id="user-info-changer-closer">+</span>
 
-                    <label for="user-bio-label" id="label-user-bio">Your bio:</label>
+                    <label for="user-bio-shorted" class="user-settings-label">Your username:</label>
+                    <input type="text" id="username-shorted" value="" disabled> 
+
+                    <label for="user-bio-label" class="user-settings-label">Your bio:</label>
                     <input type="text" id="user-bio" autocomplete="off">
                     <span id="user-bio-remaining-symbols">100 symbols left</span> <br/>
                     <button id="user-bio-clear">Clear</button>

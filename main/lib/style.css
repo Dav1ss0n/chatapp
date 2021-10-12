@@ -182,11 +182,14 @@
     top: 10px;
     border-radius: 4px;
 }
-#label-user-bio {
+/* #label-user-bio {
+    font-size: 14px;
+    color: rgb(170, 170, 170);
+} */
+.user-settings-label {
     font-size: 14px;
     color: rgb(170, 170, 170);
 }
-
 
 .red-button {
     border: 2px solid rgb(255, 37, 37);
@@ -250,9 +253,7 @@
 
 
 input[type="text"], input[type="password"] {
-    width: 330px;
-    height: 100px;
-    /* padding: 5px; */
+    padding: 5px;
     background-color: rgb(237, 237, 237);
     border: 2px solid rgb(237, 237, 237);
     border-radius: 3px;
@@ -286,6 +287,14 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover {
     color: white;
 }
 
+#username-shorted {
+    width: 330px;
+    height: 30px;
+}
+#user-bio {
+    width: 330px;
+    height: 100px;
+}
 #user-bio-save {
     margin-left: 65px;
 }
@@ -308,3 +317,7 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover {
 }
 
 
+::selection {
+    background-color: #22c3e8;
+    color: white;
+}
