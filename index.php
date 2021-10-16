@@ -19,9 +19,9 @@ if (isset($_COOKIE["uuid"])) {
         <div id="log-in">
             <div id="log-in-content">
                 <form method="POST" action="/">
-                    <input type="text" id="login" placeholder="Your Login">
+                    <input type="text" id="login" placeholder="Your Login" autocomplete="off">
                     <br/>
-                    <input type="password" id="password" placeholder="Your password">
+                    <input type="password" id="password" placeholder="Your password" autocomplete="off">
                     <br/>
                     <div id="error-messages" class="error-messages"></div>
                     <span id="reg-message">Not a member? <a id="registerOpen">Register</a></span>

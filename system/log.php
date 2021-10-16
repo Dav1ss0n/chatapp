@@ -93,7 +93,7 @@ class logger {
                             $ip = $_SERVER['REMOTE_ADDR'];
                         }
                         $actionQuery->execute();
-                        setcookie("uuid", bin2hex($uuid), time() + 21600, "/");
+                        setcookie("uuid", bin2hex($uuid), time() + 31536000, "/");
 
                         $insert_status = $this->conn->prepare("INSERT INTO user_statuses (User, Status, StatusChangeTime) VALUES (?, ?, ?)");
                         if (!$insert_status) {
@@ -190,7 +190,7 @@ class logger {
                                     $ip = $_SERVER['REMOTE_ADDR'];
                                 }
                                 $actionQuery->execute();
-                                setcookie("uuid", bin2hex($uuid), time() + 21600, "/");
+                                setcookie("uuid", bin2hex($uuid), time() + 31536000, "/");
                                 $conn->close();
                                 die(messagerArray_l3("Login", "Success", "You are now logged in"));
                             } else {
@@ -230,7 +230,7 @@ class logger {
                                 $ip = $_SERVER['REMOTE_ADDR'];
                             }
                             $actionQuery->execute();
-                            setcookie("uuid", bin2hex($uuid), time() + 21600, "/");
+                            setcookie("uuid", bin2hex($uuid), time() + 31536000, "/");
                             $conn->close();
                             die(messagerArray_l3("Login", "Success", "You are now logged in"));
                         } else {

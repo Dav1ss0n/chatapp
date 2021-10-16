@@ -97,7 +97,9 @@ function userStatusChanger(status) {
         const userStatusDot = document.getElementById("user-status-dot");
         userStatusDot.style = "color: #00bb16;"
     } else if (status == "Offline") {
-        self.location = "http://localhost/chat proto";
+        setTimeout(()=>{
+            self.location = "http://localhost/chat proto";
+        }, 350)
     }
 }
  

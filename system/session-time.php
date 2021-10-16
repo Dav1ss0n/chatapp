@@ -35,11 +35,11 @@ class sessioner {
                 $lastEntranceID = $row["ID"];
             }
     
-            if (strtotime($lastEntranceTime)+21600 < time()) {
+            if (strtotime($lastEntranceTime)+31536000 < time()) {
                 setcookie("uuid", "", time()-3600, "/");
                 echo messagerArray_l3("Session", "Expired", "User session expired");
             } else {
-                echo messagerArray_l3("Session", "Ok", [$lastEntranceID, strtotime($lastEntranceTime)+21600]);
+                echo messagerArray_l3("Session", "Ok", [$lastEntranceID, strtotime($lastEntranceTime)+31536000]);
             }
         }
     }
