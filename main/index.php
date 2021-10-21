@@ -15,6 +15,7 @@ if (!isset($_COOKIE["uuid"])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/chat proto/main/lib/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script src="/chat proto/system//libraries/jquery-3.6.0.min.js"></script>
     <title>Main page of kolhozmates</title>
 </head>
@@ -23,11 +24,11 @@ if (!isset($_COOKIE["uuid"])) {
         <div id="pre-profile">
             <div id="pre-profile-content">
                 <div class="user-avatar">
-                    <img id="user-avatar-img" src="#" alt>
+                    <img class="user-avatar-img" id="user-avatar-img" src="#" alt>
                 </div>
                 <span class="username" id="username"></span>
                 <p id="user-status-dot">.</p>
-                <p id="user-status">Active now</p>
+                <p id="user-status">Online</p>
                 <svg id="bio-edit-button" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
                     <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
                 </svg>
@@ -51,7 +52,7 @@ if (!isset($_COOKIE["uuid"])) {
                     <input type="text" id="username-shorted" value="" disabled> 
 
                     <label for="user-bio-label" class="user-settings-label">Your bio:</label>
-                    <input type="text" id="user-bio" autocomplete="off">
+                    <textarea id="user-bio" autocomplete="off"></textarea>
                     <span id="user-bio-remaining-symbols">100 symbols left</span> <br/>
                     <button id="user-bio-clear">Clear</button>
                     <button id="user-bio-save" disabled>Save</button>
@@ -62,6 +63,34 @@ if (!isset($_COOKIE["uuid"])) {
             <div class="popup-windows">
                 <div class="popup-windows-content">
                     <span class="x" id="user-settings-changer-closer">+</span>
+                </div>
+            </div>
+        </div>
+        <div class="popup-windows-dimmer" id="user-avi-changer-dimmer">
+            <div class="popup-windows">
+                <div class="popup-windows-content">
+                    <span class="x" id="user-avi-changer-closer">+</span>
+
+                    <div class="user-avatar" id="avi-changing-window">
+                        <img class="user-avatar-img" id="user-avatar-changing-img" src="#" alt>
+                    </div>
+                    <div id="img-removing">
+                            <div id="img-remover">+</div>
+                    </div>
+ 
+                    <div class="example-2">
+                    <div class="form-group">
+                        <form id="sendForm" action="#" method="POST" enctype="multipart/form-data" autocomplete="off">
+                            <input type="file" name="file" id="file" class="input-file" accept="image/x-png,image/gif,image/jpeg,image/jpg" onchange="readURL(this);">
+                            <label for="file" class="btn btn-tertiary js-labelFile">
+                            <i class="icon fa fa-check"></i>
+                            <span class="js-fileName">Load image</span>
+                            </label>
+                        </form>
+                    </div>
+
+                    <input type="button" id="avi-saver" value="Save image" disabled>
+                    </div>
                 </div>
             </div>
         </div>

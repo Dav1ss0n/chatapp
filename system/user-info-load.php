@@ -53,10 +53,11 @@ class accInfo {
             }
             $select_lastAvi->bind_param("s", $this->uuid);
             $select_lastAvi->execute();
-            if ($select_lastAvi->get_result()->num_rows == 0) {
+            $res = $select_lastAvi->get_result();
+            if ($res->num_rows == 0) {
                 $user_avi = "";
             } else {
-                $row = $select_lastAvi->get_result()->fetch_assoc();
+                $row = $res->fetch_assoc();
                 $user_avi = $row["Filename"];
             }
 

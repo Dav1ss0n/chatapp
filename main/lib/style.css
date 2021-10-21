@@ -31,7 +31,7 @@
     margin: 30px;
 }
 
-.user-avatar {
+.user-avatar-img {
     display: inline-block;
     vertical-align: middle;
     text-align: center;
@@ -40,7 +40,7 @@
     width: 50px;
     height: 50px;
     
-    margin: 5px;
+    /* margin: 5px; */
   
     border-radius: 50%;
     background-color: white;
@@ -48,29 +48,25 @@
     background-size: 3rem 3rem; */
     overflow:hidden;
 }
-.user-avatar img {
-    width: 50px;
-    height: 50px;
-}
 
 .username {
     position: relative;
-    top: -10px;
-    left: 20px;
+    top: -50px;
+    left: 80px;
     font-size: 18px;
     font-weight: 500;
 }
 
 #user-status {
-    position: relative;
-    top: -25px;
-    left: 105px;
+    position: absolute;
+    top: 60px;
+    left: 135px;
 
     user-select: none;
 }
 #user-status-dot {
     position: absolute;
-    top: 20px;
+    top: 15px;
     left: 114px;
 
     font-size: 60px;
@@ -226,6 +222,7 @@
     border-radius: 14px;
     border:2px solid #2fc01c;
     transform: translate(-50%, -50%);
+    color: #2fc01c;
 
     z-index: 99;
     display: none;
@@ -234,7 +231,6 @@
     padding:10px;
     font-size: 14px;
     text-align: center;
-    color: #2fc01c;
 }
 .x-slide-down {
     position: absolute;
@@ -248,11 +244,16 @@
     cursor: pointer;  
     user-select: none;
 }
+.slide-down-messager-red {
+    border:2px solid rgb(242, 0, 0);
+    color: rgb(242, 0, 0);
+}
 
 
 
 
-input[type="text"], input[type="password"] {
+
+input[type="text"], input[type="password"], textarea {
     padding: 5px;
     background-color: rgb(237, 237, 237);
     border: 2px solid rgb(237, 237, 237);
@@ -286,6 +287,16 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover {
     border: 2px solid rgb(252, 140, 54);
     color: white;
 }
+input[type="file"] {
+    background-color: white;
+    border-radius: 4px;
+    border: 2px solid rgb(100, 144, 255);
+
+}
+textarea {
+    resize: none;
+}
+
 
 #username-shorted {
     width: 330px;
@@ -320,4 +331,107 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover {
 ::selection {
     background-color: #22c3e8;
     color: white;
+}
+
+#avi-saver {
+    position: absolute;
+    left:160px;
+    top: 90px;
+
+    line-height:30px;
+    width:180px;
+
+    text-overflow:ellipsis;
+
+}
+#user-avatar-changing-img {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    z-index: 99;
+}
+#img-remover {
+    position: absolute;
+    top: 20px;
+    left: 120px;
+
+    font-size: 32px;
+    transform: rotate(45deg);
+    user-select: none;
+    cursor: pointer;
+}
+/* #img-removing-field {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(208, 208, 208, 0.481);
+    border-radius: 50%;
+
+    position: absolute;
+    top: 30px;
+
+} */
+#img-removing {
+    display: none;
+    background-color: transparent;
+    z-index: 1;
+}
+
+
+
+
+.example-2 .btn-tertiary {
+    color:#555;
+    padding:0;
+    line-height:30px;
+    width:180px;
+    /* margin:auto; */
+    display:block;
+    border:2px solid #555;
+    border-radius: 4px;
+
+    position: absolute;
+    left:160px;
+    top: 40px;
+}
+.example-2 .btn-tertiary:hover,.example-2 .btn-tertiary:focus {
+    /* color:#888; */
+    border-color:#888 ;
+
+    transition: 120ms;
+    background-color: #888;
+    color: white;
+    /* border-color: white; */
+}
+.example-2 .input-file {
+    width:.1px;
+    height:.1px;
+    opacity:0;
+    overflow:hidden;
+    position:absolute;
+    z-index:-1
+}
+.example-2 .input-file + .js-labelFile {
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    padding:0 10px;
+    cursor:pointer
+}
+.example-2 .input-file + .js-labelFile .icon:before {
+    content:"\f093"
+}
+.example-2 .input-file + .js-labelFile.has-file .icon:before {
+    content:"\f00c";
+    color:#5AAC7B
+}
+.js-fileName {
+    font-size: 14px;
+    position: relative;
+    left: 17px;
+}
+.input-file:hover {
+    transition: 120ms;
+    background-color: #888;
+    color: white;
+    border-color: white;
 }
