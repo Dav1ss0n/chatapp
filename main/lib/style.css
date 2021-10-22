@@ -375,7 +375,13 @@ textarea {
     background-color: transparent;
     z-index: 1;
 }
-
+#username-full {
+    width: 330px;
+    height: 30px;
+}
+.username-underline {
+    border-bottom: 4px dashed rgb(174, 248, 61);
+}
 
 
 

@@ -47,13 +47,18 @@ if (!isset($_COOKIE["uuid"])) {
             <div class="popup-windows">
                 <div class="popup-windows-content">
                     <span class="x" id="user-info-changer-closer">+</span>
+<!-- 
+                    <label for="user-bio-shorted" class="user-settings-label">Your full name:</label>
+                    <input type="text" id="username-full" value=""> 
 
                     <label for="user-bio-shorted" class="user-settings-label">Your username:</label>
-                    <input type="text" id="username-shorted" value="" disabled> 
+                    <input type="text" id="username-shorted" value="" disabled>  -->
 
                     <label for="user-bio-label" class="user-settings-label">Your bio:</label>
                     <textarea id="user-bio" autocomplete="off"></textarea>
-                    <span id="user-bio-remaining-symbols">100 symbols left</span> <br/>
+                    <span id="user-bio-remaining-symbols">100 characters left</span> <br/>
+
+
                     <button id="user-bio-clear">Clear</button>
                     <button id="user-bio-save" disabled>Save</button>
                 </div>

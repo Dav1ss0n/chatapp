@@ -201,3 +201,30 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover {
     width: 135px;
     margin: 10px 11px 2px 15px;
   }
+
+.reg-label {
+    font-size: 14px;
+    color: rgb(170, 170, 170);
+}
+
+#regLogin {
+    border-radius: 0 3px 3px 0;
+    width: 270px;
+    position: relative;
+    left: 30px;
+}
+#reg-login-sign {
+    width: 20px;
+    padding: 3px;
+
+    text-align: center;
+    font-size: 16px;
+
+    border: 2px solid rgb(0, 0, 0);
+    background-color: rgb(201, 201, 201);
+    border-radius: 3px 0 0 3px;
+
+    position: relative;
+    top: 35px;
+    left: 15px;
+}

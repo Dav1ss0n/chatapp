@@ -5,6 +5,7 @@ const settingsEnterButton = document.getElementById("settings-enter-button");
 const signOutButton = document.getElementById("signOut-button");
 const x = document.querySelector(".x");
 let userBio;
+let userFullName;
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -63,10 +64,10 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("user-bio").value
         
         let userBioRemainingSymbols = 100 - document.getElementById("user-bio").value.length;
-        document.getElementById("user-bio-remaining-symbols").innerText = userBioRemainingSymbols+" symbols left";
+        document.getElementById("user-bio-remaining-symbols").innerText = userBioRemainingSymbols+" characters left";
         if (userBioRemainingSymbols == 0 || userBioRemainingSymbols < 0) {
             document.getElementById("user-bio").value = document.getElementById("user-bio").value.substr(0, 100);
-            document.getElementById("user-bio-remaining-symbols").innerText = "0 symbols left";
+            document.getElementById("user-bio-remaining-symbols").innerText = "0 characters left";
         }
         if (document.getElementById("user-bio").value !== userBio) {
             document.getElementById("user-bio-save").disabled=false;
@@ -169,6 +170,24 @@ document.addEventListener("DOMContentLoaded", function() {
             document.querySelector(".slide-down-messager").classList.remove("slide-down-messager-red");
         }, 7000)
         $("#user-avi-changer-dimmer").fadeOut(90);
+    })
+
+    // document.getElementById("username-full").addEventListener("keyup", ()=> {
+    //     if (document.getElementById("username-full").value !== userFullName) {
+    //         if (document.getElementById("username-full").value == "" || document.getElementById("username-full").value == null) {
+    //         document.getElementById("user-bio-save").disabled=true;
+    //         } else {
+    //             document.getElementById("user-bio-save").disabled=false;
+    //         }
+    //     }
+    // })
+
+    document.querySelector("#pre-profile-content").addEventListener("mouseover", ()=>{
+        if (event.target.id == "username") {
+            document.getElementById("username").classList.add("username-underline");
+        } else {
+            document.getElementById("username").classList.remove("username-underline");
+        }
     })
 
 
@@ -280,11 +299,13 @@ function AvatarLetters(userName) {
 
   function accInfoParse(array) {
       document.getElementById("username").innerText = array.firstname+" "+array.lastname;
-      document.getElementById("username-shorted").value = array.username;
+    //   document.getElementById("username-full").value = array.firstname+" "+array.lastname;
+    //   document.getElementById("username-shorted").value = array.username;
 
       document.getElementById("user-bio").value = array.bio;
-      document.getElementById("user-bio-remaining-symbols").innerText = 100 - array.bio.length+" symbols left";
+      document.getElementById("user-bio-remaining-symbols").innerText = 100 - array.bio.length+" characters left";
       userBio = array.bio;
+      userFullName = array.firstname+" "+array.lastname;
       if (!array.avi) {
           AvatarLetters(array.username);
       } else {

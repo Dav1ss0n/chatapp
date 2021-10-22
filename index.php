@@ -35,7 +35,8 @@ if (isset($_COOKIE["uuid"])) {
                 <div id="registerBoxContent">
                     <span id="regCloser">+</span>
                     <br/>
-                    <input type="text" id="regLogin" placeholder="Your Login">
+                    <span id="reg-login-sign">@</span>
+                    <input type="text" id="regLogin" placeholder="Your Login" oninput="let p = this.selectionStart; this.value = this.value.toLowerCase();this.setSelectionRange(p, p);" onkeypress ="return suppressNonEng(event)">
                     <br/>
                     <div id="names">
                         <input type="text" id="regName1" placeholder="Your First Name">
