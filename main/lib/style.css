@@ -108,6 +108,8 @@
     left:0;
     background-color: rgba(0,0,0,0.5);
     display: none;
+
+    z-index: 99;
 }
 #messager {
     width: 390px;
@@ -382,6 +384,37 @@ textarea {
 .username-underline {
     border-bottom: 4px dashed rgb(174, 248, 61);
 }
+#username-shorted {
+    margin-bottom: 20px;
+    border-radius: 0 3px 3px 0;
+    width: 300px;
+    position: relative;
+    left: 30px;
+}
+#username-shorted-sign {
+    width: 30px;
+    padding: 3px;
+
+    text-align: center;
+    font-size: 16px;
+
+    /* border: 2px solid rgb(0, 0, 0); */
+    background-color: rgb(201, 201, 201);
+    border-radius: 3px 0 0 3px;
+
+    position: relative;
+    top: 25px;
+    left: -115px;
+}
+#username-firstname {
+    width: 150px;
+}
+#username-lastname {
+    width: 150px;
+    position: relative;
+    left: 25px
+}
+
 
 
 

@@ -11,6 +11,9 @@ if (isset($_COOKIE["uuid"])) {
         } elseif ($_POST["parameter"] == "avi_clear") {
             $userChange = new userChange();
             $aviChange = $userChange->avi_change();
+        } elseif ($_POST["parameter"] == "username") {
+            $userChange = new userChange();
+            $usernameChange = $userChange->username_change();
         }
     }
 }
@@ -93,6 +96,55 @@ class userChange {
                     }
                 }
             }
+        }
+    }
+
+    final public function username_change() {
+        $this->change = json_decode($_POST["change"]);
+        require("./includes/functions/messager-array.php");
+        require("./includes/databases/chat.php");
+        $chat = new db_connect();
+        $this->conn = $chat->connect();
+        for ($i=0; $i<count($this->change); $i++) {
+            if (substr($this->change[$i], 0, 1) == 0) {
+                $update_firstname = $this->conn->prepare("UPDATE usernames SET first_name = ? WHERE uuid = ?");
+                if (!$update_firstname) {
+                    die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                }
+                $update_firstname->bind_param("ss", $firstname, $uuid);
+                $firstname = substr($this->change[$i], 1, strlen($this->change[$i]));
+                $uuid=hex2bin($_COOKIE["uuid"]);
+                $update_firstname->execute();
+            } elseif (substr($this->change[$i], 0, 1) == 1) {
+                $update_lastname = $this->conn->prepare("UPDATE usernames SET last_name = ? WHERE uuid = ?");
+                if (!$update_lastname) {
+                    die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                }
+                $update_lastname->bind_param("ss", $lastname, $uuid);
+                $lastname = substr($this->change[$i], 1, strlen($this->change[$i]));
+                $uuid=hex2bin($_COOKIE["uuid"]);
+                $update_lastname->execute();
+            } elseif (substr($this->change[$i], 0, 1) == 2) {
+                $select_username = $this->conn->prepare("SELECT Login FROM users WHERE Login = ?");
+                if (!$select_username) {
+                    die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                }
+                $select_username->bind_param('s', $username);
+                $username = substr($this->change[$i], 1, strlen($this->change[$i]));
+                $select_username->execute();
+                if ($select_username->get_result()->num_rows == 1) {
+                    die(messagerArray_l3("username_changing", "Not found", "Username(Login) was already taken"));
+                } else {
+                    $update_username = $this->conn->prepare("UPDATE users SET Login = ? WHERE UUID = ?");
+                    if (!$update_username) {
+                        die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                    }
+                    $update_username->bind_param("ss", $username, $uuid);
+                    $username = substr($this->change[$i], 1, strlen($this->change[$i]));
+                    $uuid=hex2bin($_COOKIE["uuid"]);
+                    $update_username->execute();
+                }
+            } 
         }
     }
 

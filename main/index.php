@@ -47,12 +47,6 @@ if (!isset($_COOKIE["uuid"])) {
             <div class="popup-windows">
                 <div class="popup-windows-content">
                     <span class="x" id="user-info-changer-closer">+</span>
-<!-- 
-                    <label for="user-bio-shorted" class="user-settings-label">Your full name:</label>
-                    <input type="text" id="username-full" value=""> 
-
-                    <label for="user-bio-shorted" class="user-settings-label">Your username:</label>
-                    <input type="text" id="username-shorted" value="" disabled>  -->
 
                     <label for="user-bio-label" class="user-settings-label">Your bio:</label>
                     <textarea id="user-bio" autocomplete="off"></textarea>
@@ -125,6 +119,26 @@ if (!isset($_COOKIE["uuid"])) {
                 </div>
             </div>
         </div>
+        <div id="username-changer-dimmer" class="popup-windows-dimmer">
+            <div id="username-changer" class="popup-windows">
+                <div id="username-changer-content" class="popup-windows-content">
+                    <span class="x" id="username-changer-closer">+</span>
+
+                    <label for="username-shorted" class="user-settings-label">Your full name:</label>
+                    <br/>
+                    <input type="text" id="username-firstname" value="" autocomplete="off"> 
+                    <input type="text" id="username-lastname" value="" autocomplete="off"> 
+
+                    <label for="username-shorted" class="user-settings-label">Your username:</label>
+                    <span id="username-shorted-sign">@</span>
+                    <input type="text" id="username-shorted" value="" oninput="let p = this.selectionStart; this.value = this.value.toLowerCase();this.setSelectionRange(p, p);" onkeypress ="return suppressNonEng(event)" autocomplete="off"> 
+
+                    <button id="username-save" disabled>Save</button>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </body>
     <script defer src="/chat proto/main/lib/script.js"></script>

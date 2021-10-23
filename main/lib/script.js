@@ -5,7 +5,10 @@ const settingsEnterButton = document.getElementById("settings-enter-button");
 const signOutButton = document.getElementById("signOut-button");
 const x = document.querySelector(".x");
 let userBio;
-let userFullName;
+let userFirstName;
+let userLastName;
+let userShortedName;
+let usernamesArray;
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -37,6 +40,11 @@ document.addEventListener("DOMContentLoaded", function() {
     $("#user-avi-changer-dimmer").click(() => {
         if (event.target.id == "user-avi-changer-dimmer" || event.target.id == "user-avi-changer-closer") {
             $("#user-avi-changer-dimmer").fadeOut(90);
+        }
+    })
+    $("#username-changer-dimmer").click(() => {
+        if (event.target.id == "username-changer-dimmer" || event.target.id == "username-changer-closer") {
+            $("#username-changer-dimmer").fadeOut(90);
         }
     })
 
@@ -77,13 +85,14 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("user-bio-save").disabled=true;
         // console.log(document.getElementById("user-bio").value);
         userChange("bio", document.getElementById("user-bio").value);
+        document.querySelector(".slide-down-message").innerText = "Changes were saved";
         $('.slide-down-messager').slideDown(300);
         $(".x-slide-down").click(() => {
             $('.slide-down-messager').slideUp(300);
         })
         setTimeout(() => {
             $('.slide-down-messager').slideUp(300);
-        }, 7000)
+        }, 5000)
         $("#user-info-changer-dimmer").fadeOut(90);
     });
     // document.getElementById("user-info-changer-dimmer").addEventListener("keypress", (e) => {
@@ -109,17 +118,6 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("avi-saver").disabled = true;
         let photos = document.getElementById("file").files;
         let photo = photos[0];
-        // let data=new FormData(document.getElementById("sendForm"));
-        // data.append("parameter", "avi");
-        // data.append("change", photo, photo.name);
-        // console.log(data);
-
-        // let xml = new XMLHttpRequest();
-        // xml.open("POST", "/chat%20proto/system/user-change.php", true);
-        // xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        // xml.send(photo);
-
-        
         let formdata = new FormData();	
         formdata.append("parameter", "avi");
         formdata.append("change", photo);
@@ -131,13 +129,14 @@ document.addEventListener("DOMContentLoaded", function() {
             contentType: false,
             success:function(){
                 userInfoGet();
+                document.querySelector(".slide-down-message").innerText = "Changes were saved";
                 $('.slide-down-messager').slideDown(300);
                 $(".x-slide-down").click(() => {
                     $('.slide-down-messager').slideUp(300);
                 })
                 setTimeout(() => {
                     $('.slide-down-messager').slideUp(300);
-                }, 7000)
+                }, 5000)
 
                 $("#user-avi-changer-dimmer").fadeOut(90);
             }
@@ -168,19 +167,58 @@ document.addEventListener("DOMContentLoaded", function() {
         setTimeout(() => {
             $('.slide-down-messager').slideUp(300);
             document.querySelector(".slide-down-messager").classList.remove("slide-down-messager-red");
-        }, 7000)
+        }, 5000)
         $("#user-avi-changer-dimmer").fadeOut(90);
-    })
+    });
 
-    // document.getElementById("username-full").addEventListener("keyup", ()=> {
-    //     if (document.getElementById("username-full").value !== userFullName) {
-    //         if (document.getElementById("username-full").value == "" || document.getElementById("username-full").value == null) {
-    //         document.getElementById("user-bio-save").disabled=true;
-    //         } else {
-    //             document.getElementById("user-bio-save").disabled=false;
-    //         }
+
+    // document.getElementById("username-firstname").addEventListener("keyup", ()=> {
+    //     if (document.getElementById("username-firstname").value.length !== 0 || document.getElementById("username-firstname").value !== null) {
+    //         document.getElementById("username-save").disabled=false;
     //     }
-    // })
+    // });
+    // document.getElementById("username-lastname").addEventListener("keyup", ()=> {
+    //     if (document.getElementById("username-lastname").value.length !== 0 || document.getElementById("username-lastname").value !== null) {
+    //         document.getElementById("username-save").disabled=false;
+    //     }
+    // });
+    // document.getElementById("username-shorted").addEventListener("keyup", ()=>{
+    //     if (document.getElementById("username-shorted").value.length !== 0 || document.getElementById("username-shorted").value !== null) {
+    //         document.getElementById("username-save").disabled=false;
+    //     }
+    // });
+
+    
+    let inputs = document.querySelectorAll("#username-changer-content input");
+    inputs.forEach((input)=>{
+        input.addEventListener("keyup", ()=>{
+            if (inputs[0].value.length===0 || inputs[1].value.length===0 || inputs[2].value.length===0) {
+                console.log("Deactivated");
+                document.getElementById("username-save").disabled=true;
+            } else {
+                if (inputs[0].value===userFirstName && inputs[1].value===userLastName && inputs[2].value===userShortedName) {
+                    console.log("deactivated");
+                    document.getElementById("username-save").disabled=true;
+                } else {
+                    console.log("activated");
+                    document.getElementById("username-save").disabled=false;
+                }
+            }
+        }) 
+    });
+    // for (let i=0; i<inputs.length; i++) {
+    //     inputs[i].addEventListener("keyup", ()=>{
+    //         if (inputs[i].value.length === 0 || inputs[i].value === null) {
+    //             document.getElementById("username-save").disabled=true;
+    //         } else {
+    //             document.getElementById("username-save").disabled=false;
+    //         }
+    //     })
+    // }
+
+
+
+
 
     document.querySelector("#pre-profile-content").addEventListener("mouseover", ()=>{
         if (event.target.id == "username") {
@@ -188,7 +226,31 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             document.getElementById("username").classList.remove("username-underline");
         }
+    });
+    document.getElementById("username").addEventListener("click", ()=>{
+        $("#username-changer-dimmer").fadeIn(90);
+    });
+
+    document.getElementById("username-save").addEventListener("click", ()=>{
+        document.getElementById("username-save").disabled=true;
+        userChange("username", [document.getElementById("username-firstname").value, document.getElementById("username-lastname").value, document.getElementById("username-shorted").value])
+        document.querySelector(".slide-down-message").innerText = "Changes were saved";
+        $('.slide-down-messager').slideDown(300);
+        $(".x-slide-down").click(() => {
+            $('.slide-down-messager').slideUp(300);
+        })
+        setTimeout(() => {
+            $('.slide-down-messager').slideUp(300);
+        }, 5000)
+
+        $("#username-changer-dimmer").fadeOut(90);
+    });
+    document.getElementById("username-shorted").addEventListener("keyup", ()=>{
+        if (document.getElementById("username-shorted").value.length > 14) {
+            document.getElementById("username-shorted").value = document.getElementById("username-shorted").value.substr(0, 16);
+        }
     })
+
 
 
 
@@ -298,37 +360,47 @@ function AvatarLetters(userName) {
   }
 
   function accInfoParse(array) {
-      document.getElementById("username").innerText = array.firstname+" "+array.lastname;
-    //   document.getElementById("username-full").value = array.firstname+" "+array.lastname;
-    //   document.getElementById("username-shorted").value = array.username;
-
-      document.getElementById("user-bio").value = array.bio;
-      document.getElementById("user-bio-remaining-symbols").innerText = 100 - array.bio.length+" characters left";
-      userBio = array.bio;
-      userFullName = array.firstname+" "+array.lastname;
-      if (!array.avi) {
-          AvatarLetters(array.username);
-      } else {
-          let avis = document.querySelectorAll(".user-avatar-img");
-          for (let i=0; i<avis.length; i++) {
-              avis[i].src = "/chat%20proto/system/"+array.folder_name+"photos/avis/"+array.avi;
+        if (Object.keys(array).length == 3) {
+          if (array.Problem == "Cookie was not found") {
+              if (array.Status == "Denied") {
+                message.innerText = Object.values(array)[2];
+                $("#messagerDimmer").fadeIn(90);
+                setTimeout(()=> {
+                    self.location = "http://localhost/chat%20proto";
+                }, 10000);
+                messagerDimmer.addEventListener("click", function() {
+                    self.location = "http://localhost/chat%20proto";
+                })
+              }
           }
-      }
+        } else if (Object.keys(array).length > 3) {
+            document.getElementById("username").innerText = array.firstname+" "+array.lastname;
+            document.getElementById("username-firstname").value = array.firstname;
+            document.getElementById("username-lastname").value = array.lastname;
+            document.getElementById("username-shorted").value = array.username;
+    
+            document.getElementById("user-bio").value = array.bio;
+            document.getElementById("user-bio-remaining-symbols").innerText = 100 - array.bio.length+" characters left";
+            userBio = array.bio;
+            userFirstName = array.firstname;
+            userLastName = array.lastname;
+            userShortedName = array.username;
+            usernamesArray = [userFirstName, userLastName, userShortedName];
+            if (!array.avi) {
+                AvatarLetters(array.username);
+            } else {
+                let avis = document.querySelectorAll(".user-avatar-img");
+                for (let i=0; i<avis.length; i++) {
+                    avis[i].src = "/chat%20proto/system/"+array.folder_name+"photos/avis/"+array.avi;
+                }
+            }
+        }
 
   }
 
 
 function userChange(parameter, change) {
     let xml = new XMLHttpRequest();
-    // xml.onreadystatechange = () => {
-    //     if (this.readyState == 4 && this.status == 200) {
-    //         if (this.responseText !== "") {
-    //             console.log(this.responseText);
-    //         } else {
-
-    //         }
-    //     }
-    // }
     xml.onreadystatechange = function() {
         if (this.readyState==4 && this.status==200) {
             userInfoGet();
@@ -336,7 +408,18 @@ function userChange(parameter, change) {
     }
     xml.open("POST", "/chat%20proto/system/user-change.php", true);
     xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xml.send("parameter="+parameter+"&change="+change);
+    if (parameter == "username") {
+        let changeArray=[];
+        for (let i=0; i<usernamesArray.length; i++) {
+            if (change[i] !== usernamesArray[i]) {
+                changeArray.push(i+change[i]);
+            };
+        }
+
+        xml.send("parameter="+parameter+"&change="+JSON.stringify(changeArray));
+    } else {
+        xml.send("parameter="+parameter+"&change="+change);
+    }
 }
 
 
@@ -374,3 +457,15 @@ function readURL(input) {
         document.getElementById("avi-saver").disabled = false;
     }
 }
+
+
+function  suppressNonEng(e) {
+
+    let key;
+    if(window.event)  key = window.event.keyCode;     //IE
+    else  key = e.which;     //firefox
+  
+  
+    if(key >128)  return false;
+    else  return true;
+  }
