@@ -18,7 +18,7 @@ if (isset($_COOKIE["uuid"])) {
     <div id="info">
         <div id="log-in">
             <div id="log-in-content">
-                <form method="POST" action="/">
+                <form method="POST" action="/" id="loginForm">
                     <input type="text" id="login" placeholder="Your Login" autocomplete="off">
                     <br/>
                     <input type="password" id="password" placeholder="Your password" autocomplete="off">
@@ -33,24 +33,26 @@ if (isset($_COOKIE["uuid"])) {
         <div id="registerBoxDimmer">
             <div id="registerBox">
                 <div id="registerBoxContent">
-                    <span id="regCloser">+</span>
-                    <br/>
-                    <span id="reg-login-sign">@</span>
-                    <input type="text" id="regLogin" placeholder="Your Login" oninput="let p = this.selectionStart; this.value = this.value.toLowerCase();this.setSelectionRange(p, p);" onkeypress ="return suppressNonEng(event)">
-                    <br/>
-                    <div id="names">
-                        <input type="text" id="regName1" placeholder="Your First Name">
-                        <input type="text" id="regName2" placeholder="Your Last Name">
-                    </div>
-                    <br/>
-                    <input type="text" id="regEmail" placeholder="Your Email">
-                    <!-- <button id="emailConfirm">Confirm</button> -->
-                    <br/>
-                    <input type="password" id="regPassC1" placeholder="Your Password">
-                    <br/>
-                    <input type="password" id="regPassC2" placeholder="Confirm Pasword">
-                    <div id="reg-error-messages" class="error-messages">error</div>
-                    <button id="register">Enter</button>
+                    <form method="POST" action="#" id="registerForm">
+                        <span id="regCloser">+</span>
+                        <br/>
+                        <span id="reg-login-sign">@</span>
+                        <input type="text" id="regLogin" placeholder="Your Login" oninput="let p = this.selectionStart; this.value = this.value.toLowerCase();this.setSelectionRange(p, p);" onkeypress ="return suppressNonEng(event)">
+                        <br/>
+                        <div id="names">
+                            <input type="text" id="regName1" placeholder="Your First Name">
+                            <input type="text" id="regName2" placeholder="Your Last Name">
+                        </div>
+                        <br/>
+                        <input type="text" id="regEmail" placeholder="Your Email">
+                        <!-- <button id="emailConfirm">Confirm</button> -->
+                        <br/>
+                        <input type="password" id="regPassC1" placeholder="Your Password">
+                        <br/>
+                        <input type="password" id="regPassC2" placeholder="Confirm Pasword">
+                        <div id="reg-error-messages" class="error-messages">error</div>
+                        <button id="register">Enter</button>
+                    </form>
                 </div>
             </div>
         </div>

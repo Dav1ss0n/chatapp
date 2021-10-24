@@ -193,14 +193,11 @@ document.addEventListener("DOMContentLoaded", function() {
     inputs.forEach((input)=>{
         input.addEventListener("keyup", ()=>{
             if (inputs[0].value.length===0 || inputs[1].value.length===0 || inputs[2].value.length===0) {
-                console.log("Deactivated");
                 document.getElementById("username-save").disabled=true;
             } else {
                 if (inputs[0].value===userFirstName && inputs[1].value===userLastName && inputs[2].value===userShortedName) {
-                    console.log("deactivated");
                     document.getElementById("username-save").disabled=true;
                 } else {
-                    console.log("activated");
                     document.getElementById("username-save").disabled=false;
                 }
             }
