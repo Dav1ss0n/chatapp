@@ -16,6 +16,7 @@ if (!isset($_COOKIE["uuid"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/chat proto/main/lib/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <script src="/chat proto/system//libraries/jquery-3.6.0.min.js"></script>
     <title>Main page of kolhozmates</title>
 </head>
@@ -26,9 +27,13 @@ if (!isset($_COOKIE["uuid"])) {
                 <div class="user-avatar">
                     <img class="user-avatar-img" id="user-avatar-img" src="#" alt>
                 </div>
-                <span class="username" id="username"></span>
-                <p id="user-status-dot">.</p>
-                <p id="user-status">Online</p>
+                <div id="username-and-status">
+                  <div class="username" id="username">Dave Davission</div>
+                  <div id="user-status-content">
+                    <span id="user-status-dot">•</span>
+                    <span id="user-status">Online</span>
+                  </div>
+                </div>
                 <svg id="bio-edit-button" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
                     <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
                 </svg>
@@ -40,6 +45,14 @@ if (!isset($_COOKIE["uuid"])) {
                     <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
                     <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
                 </svg>
+            </div>
+
+            <div class="users">
+            <div class="search">
+                <span class="text">Select an user to start chat</span>
+                <input type="text" placeholder="Enter name to search..." control-id="ControlID-1">
+                <button control-id="ControlID-2"><i class="fas fa-search"></i></button>
+            </div>
             </div>
         </div>            
 
