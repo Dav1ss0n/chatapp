@@ -228,3 +228,34 @@ input[type="button"]:hover, input[type="submit"]:hover, button:hover {
     top: 35px;
     left: 15px;
 }
+
+
+
+
+
+
+
+@media screen and (max-width: 480px) {
+    #log-in {
+        width: 100vw;
+        height: 100vh;
+        /* height: calc(var(--vh) * 100); */
+        margin: 0;
+        border-radius: 0;
+        
+        overflow: auto;
+        top: 0;
+        left: 0;
+        transform: translate(0,0);
+        
+        position: fixed;
+    }
+    #log-in-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        /* background-color: rgb(255, 255, 255); */
+        border-radius: 14px;
+        transform: translate(-50%, -50%);
+    }
+}

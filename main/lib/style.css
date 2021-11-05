@@ -87,7 +87,7 @@
 #settings-enter-button {
     position: relative;
     top: 15px;
-    left: 5px;
+    /* left: 5px; */
     width: 50px;
     height: 22px;
     cursor: pointer;
@@ -95,10 +95,11 @@
 #signOut-button {
     position: relative;
     top: 15px;
-    left: 5px;
+    /* left: 5px; */
     width: 50px;
     height: 22px;
     cursor: pointer;
+    overflow: hidden;
 }
 
 #messagerDimmer {
@@ -505,7 +506,6 @@ textarea {
 .users .search button {
     position: relative;
     left: 20px;
-
     z-index: 1;
     width: 47px;
     height: 42px;
@@ -562,5 +562,8 @@ svg {
         transform: translate(0,0);
         
         position: fixed;
+    }
+    #pre-profile-content {
+        margin-top: 50px;
     }
 }
