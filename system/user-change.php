@@ -14,6 +14,9 @@ if (isset($_COOKIE["uuid"])) {
         } elseif ($_POST["parameter"] == "username") {
             $userChange = new userChange();
             $usernameChange = $userChange->username_change();
+        } elseif ($_POST["parameter"] == "accDelete") {
+            $userChange = new userChange();
+            $accDelete = $userChange->accDelete();
         }
     }
 }
@@ -148,8 +151,114 @@ class userChange {
         }
     }
 
+    final public function accDelete() {
+        require("./includes/functions/messager-array.php");
+        require("./includes/databases/chat.php");
+        $chat = new db_connect();
+        $this->conn = $chat->connect();
+
+        $check_uuid = $this->conn->prepare("SELECT Path FROM folders WHERE User = ? LIMIT 1");
+        if (!$check_uuid) {
+            die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+        }
+        $check_uuid->bind_param("s", $uuid);
+        $uuid = hex2bin($_COOKIE["uuid"]);
+        $check_uuid->execute();
+        $res = $check_uuid->get_result();
+        if ($res->num_rows == 0) {
+            die(messagerArray_l3("Acc delete", "Denied", "No such as uuid"));
+        } else {
+            $row = $res->fetch_assoc();
+            $path = $row["Path"];
+
+            $delete_usersTable = $this->conn->prepare("DELETE FROM users WHERE UUID = ?");
+            if (!$delete_usersTable) {
+                die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+            }
+            $delete_usersTable->bind_param("s", $uuid);
+            $uuid = hex2bin($_COOKIE["uuid"]);
+            $delete_usersTable->execute();
 
 
+            if (new removeDir("../system/".$path)) {
+                $delete_folder = $this->conn->prepare("DELETE FROM folders WHERE User = ?");
+                if (!$delete_folder) {
+                    die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                }
+                $delete_folder->bind_param("s", $uuid);
+                $uuid = hex2bin($_COOKIE["uuid"]);
+                $delete_folder->execute();
+
+
+                $delete_usernames = $this->conn->prepare("DELETE FROM usernames WHERE uuid = ?");
+                if (!$delete_usernames) {
+                    die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                }
+                $delete_usernames->bind_param("s", $uuid);
+                $uuid = hex2bin($_COOKIE["uuid"]);
+                $delete_usernames->execute();
+
+
+                $delete_avis = $this->conn->prepare("DELETE FROM avis WHERE User = ?");
+                if (!$delete_avis) {
+                    die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                }
+                $delete_avis->bind_param("s", $uuid);
+                $uuid = hex2bin($_COOKIE["uuid"]);
+                $delete_avis->execute();
+
+
+                $delete_bio = $this->conn->prepare("DELETE FROM bio WHERE User = ?");
+                if (!$delete_bio) {
+                    die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                }
+                $delete_bio->bind_param("s", $uuid);
+                $uuid = hex2bin($_COOKIE["uuid"]);
+                $delete_bio->execute();
+    
+    
+                $update_userStatus = $this->conn->prepare("UPDATE user_statuses SET Status = ? WHERE User = ?");
+                if (!$update_userStatus) {
+                    die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
+                }
+                $update_userStatus->bind_param("ss", $status, $uuid);
+                $status="Deleted";
+                $uuid = hex2bin($_COOKIE["uuid"]);
+                $update_userStatus->execute();
+
+                if (setcookie("uuid", "", time()-3600, "/")) {
+                    die(messagerArray_l3("Acc delete", "Completed", "Deletion was completed succesfully"));
+                }
+            }
+
+        }
+    }
+
+
+
+
+
+}
+
+
+class removeDir {
+    final public function __construct($dirname) {
+        if (is_dir($dirname)) {
+            $dir = new RecursiveDirectoryIterator($dirname, RecursiveDirectoryIterator::SKIP_DOTS);
+            foreach (new RecursiveIteratorIterator($dir, RecursiveIteratorIterator::CHILD_FIRST) as $object) {
+                if ($object->isFile()) {
+                    unlink($object);
+                } elseif($object->isDir()) {
+                    rmdir($object);
+                } else {
+                    throw new Exception('Unknown object type: '. $object->getFileName());
+                }
+            }
+            rmdir($dirname); // Now remove myfolder
+        } else {
+            throw new Exception('This is not a directory');
+        }
+    }
 
 }
 ?>

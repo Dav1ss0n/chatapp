@@ -75,6 +75,8 @@ if (!isset($_COOKIE["uuid"])) {
             <div class="popup-windows">
                 <div class="popup-windows-content">
                     <span class="x" id="user-settings-changer-closer">+</span>
+
+                    <button id="acc-delete" class="red-button">Delete an account</button>
                 </div>
             </div>
         </div>

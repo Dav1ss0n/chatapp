@@ -29,7 +29,9 @@ class accInfo {
         $result = $uuid_checker->get_result();
 
         if ($result->num_rows == 0) {
-            die(messagerArray_l3("Account Info Load", "Denied", "Unappropriate uuid"));
+            if (setcookie("uuid", "", time()-3600, "/")) {
+                die(messagerArray_l3("Account Info Load", "Denied", "Unappropriate uuid"));
+            }
         } else {
             // taking username
             $this->uuid = hex2bin($_COOKIE["uuid"]);

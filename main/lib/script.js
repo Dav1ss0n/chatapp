@@ -11,7 +11,8 @@ let userShortedName;
 let usernamesArray;
 const searchBar = document.querySelector(".search input"),
 searchIcon = document.querySelector(".search button"),
-usersList = document.querySelector(".users-list");
+usersList = document.querySelector(".users-list"),
+accDeleteButton = document.getElementById("acc-delete");
 
 searchIcon.onclick = ()=>{
   searchBar.classList.toggle("show");
@@ -21,6 +22,29 @@ searchIcon.onclick = ()=>{
     searchBar.value = "";
     searchBar.classList.remove("active");
   }
+}
+searchBar.onkeyup = ()=>{
+    let searchTerm = searchBar.value;
+    if(searchTerm != ""){
+      searchBar.classList.add("active");
+    }else{
+      searchBar.classList.remove("active");
+    }
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "../system/search.php?inputString=" + searchTerm, true);
+    // xhr.onload = ()=>{
+    //   if(xhr.readyState === XMLHttpRequest.DONE){
+    //       if(xhr.status === 200){
+    //         let data = xhr.response;
+    //         usersList.innerHTML = data;
+    //       }
+    //   }
+    // }
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send();
+  }
+accDeleteButton.onclick = ()=>{
+    userChange("accDelete", "");
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -370,7 +394,7 @@ function AvatarLetters(userName) {
 
   function accInfoParse(array) {
         if (Object.keys(array).length == 3) {
-          if (array.Problem == "Cookie was not found") {
+          if (array.Problem == "Cookie was not found" || array.Problem == "Unappropriate uuid" || array.Problem == "No such as uuid") {
               if (array.Status == "Denied") {
                 message.innerText = Object.values(array)[2];
                 $("#messagerDimmer").fadeIn(90);
@@ -381,7 +405,7 @@ function AvatarLetters(userName) {
                     self.location = "http://localhost/chat%20proto";
                 })
               }
-          }
+          } 
         } else if (Object.keys(array).length > 3) {
             document.getElementById("username").innerText = array.firstname+" "+array.lastname;
             document.getElementById("username-firstname").value = array.firstname;
@@ -426,6 +450,8 @@ function userChange(parameter, change) {
         }
 
         xml.send("parameter="+parameter+"&change="+JSON.stringify(changeArray));
+    } else if (parameter == "accDelete") {
+        xml.send("parameter="+parameter);
     } else {
         xml.send("parameter="+parameter+"&change="+change);
     }

@@ -56,11 +56,18 @@
     /* left: 10px; */
 }
 
-.username {
+/* .username {
 	font-size: 18px;
 	font-weight: 500;
 	height: 24px;
 	overflow: clip;
+} */
+.username {
+    font-size: 18px;
+    font-weight: 500;
+    height: 24px;
+    width: max-content;
+    overflow: clip;
 }
 
 #user-status {
@@ -543,6 +550,9 @@ svg {
 #user-status-content {
     margin-top: 5px;
 }
+#acc-delete {
+    width: -webkit-fill-available;
+}
 
 
 
@@ -565,5 +575,8 @@ svg {
     }
     #pre-profile-content {
         margin-top: 50px;
+    }
+    .username {
+        width: auto;
     }
 }
