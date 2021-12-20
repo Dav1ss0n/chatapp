@@ -26,6 +26,9 @@
     border-radius: 14px;
     transform: translate(-50%, -50%);
     box-shadow: 0 0 5px #d0cfcf;
+
+    display: flex;
+    flex-direction: column;
 }
 
 #pre-profile-content {
@@ -87,7 +90,7 @@
 #bio-edit-button {
     position: relative;
     top: 15px;
-    left: 0px;
+    left: 5px;
     width: 50px;
     height: 20px;
     cursor: pointer;
@@ -96,7 +99,7 @@
 #settings-enter-button {
     position: relative;
     top: 15px;
-    /* left: 5px; */
+     left: 5px; 
     width: 50px;
     height: 22px;
     cursor: pointer;
@@ -104,7 +107,7 @@
 #signOut-button {
     position: relative;
     top: 15px;
-    /* left: 5px; */
+     left: 5px; 
     width: 50px;
     height: 22px;
     cursor: pointer;
@@ -560,7 +563,7 @@ svg {
 
 
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 480px) , (max-height: 800px) {
     #pre-profile {
         width: 100vw;
         height: 100vh;
@@ -576,9 +579,56 @@ svg {
         position: fixed;
     }
     #pre-profile-content {
-        margin-top: 50px;
+        margin: 10px;
     }
     .username {
         width: auto;
     }
 }
+
+
+/* CONTACT CARD EXAMPLE----------------------11/11/21------------- */
+.contact-card {
+    margin: 0 10px;
+    padding: 5px;
+    
+    cursor: pointer;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .contact-card:hover {
+    background: gainsboro;
+    border-radius: 7px;
+  }
+  
+  .contact-avatar {
+    flex-shrink: 0;
+    background-color: yellow;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+  }
+  
+  .contact-container {
+    width: 100%;
+  }
+  
+  .contact-name {
+    text-align: left;
+  }
+  
+  .contact-last-msg {
+    color: grey;
+  }
+  
+  .contact-status {
+    flex-shrink: 0;
+    background-color: grey;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+  }

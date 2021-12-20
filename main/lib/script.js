@@ -33,21 +33,26 @@ searchBar.onkeyup = ()=>{
     if (searchTerm.length >= 1) {
         let xhr = new XMLHttpRequest();
         xhr.open("GET", "../system/search.php?inputString=" + searchTerm, true);
-        // xhr.onload = ()=>{
-        //   if(xhr.readyState === XMLHttpRequest.DONE){
-        //       if(xhr.status === 200){
-        //         let data = xhr.response;
-        //         usersList.innerHTML = data;
-        //       }
-        //   }
-        // }
+        xhr.onload = ()=>{
+          if(xhr.readyState === XMLHttpRequest.DONE){
+              if(xhr.status === 200){
+                let data = xhr.response;
+                document.getElementById("search-results").innerHTML = data;
+              }
+          }
+        }
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send();
     }
   }
 accDeleteButton.onclick = ()=>{
     userChange("accDelete", "");
-}
+};
+$( "#username-shorted" ).on( "keydown", function( event ) {
+    if(event.which==13){
+        shUsernameSave();
+    }
+  });
 
 document.addEventListener("DOMContentLoaded", function() {
     // $("#confirmerDimmer").fadeIn(90);
@@ -267,18 +272,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     document.getElementById("username-save").addEventListener("click", ()=>{
-        document.getElementById("username-save").disabled=true;
-        userChange("username", [document.getElementById("username-firstname").value, document.getElementById("username-lastname").value, document.getElementById("username-shorted").value])
-        document.querySelector(".slide-down-message").innerText = "Changes were saved";
-        $('.slide-down-messager').slideDown(300);
-        $(".x-slide-down").click(() => {
-            $('.slide-down-messager').slideUp(300);
-        })
-        setTimeout(() => {
-            $('.slide-down-messager').slideUp(300);
-        }, 5000)
-
-        $("#username-changer-dimmer").fadeOut(90);
+        shUsernameSave();
     });
     document.getElementById("username-shorted").addEventListener("keyup", ()=>{
         if (document.getElementById("username-shorted").value.length > 14) {
@@ -300,6 +294,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function userStatusChanger(status) {
     let xml = new XMLHttpRequest();
+    xml.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            if (this.response == "Deleted") {
+                self.location = "http://localhost/chat%20proto";
+            }
+        }
+    }
     xml.open("POST", "/chat%20proto/system/statuser.php", true);
     xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xml.send("status="+status);
@@ -307,10 +308,6 @@ function userStatusChanger(status) {
     if (status == "Online") {
         const userStatusDot = document.getElementById("user-status-dot");
         userStatusDot.style = "color: #00bb16;"
-    } else if (status == "Offline") {
-        setTimeout(()=>{
-            self.location = "http://localhost/chat%20proto";
-        }, 350)
     }
 }
  
@@ -506,3 +503,19 @@ function  suppressNonEng(e) {
     if(key >128)  return false;
     else  return true;
   }
+
+
+function shUsernameSave() {
+    document.getElementById("username-save").disabled=true;
+    userChange("username", [document.getElementById("username-firstname").value, document.getElementById("username-lastname").value, document.getElementById("username-shorted").value])
+    document.querySelector(".slide-down-message").innerText = "Changes were saved";
+    $('.slide-down-messager').slideDown(300);
+    $(".x-slide-down").click(() => {
+        $('.slide-down-messager').slideUp(300);
+    })
+    setTimeout(() => {
+        $('.slide-down-messager').slideUp(300);
+    }, 5000)
+
+    $("#username-changer-dimmer").fadeOut(90);
+}

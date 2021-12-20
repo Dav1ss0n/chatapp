@@ -55,6 +55,16 @@ if (!isset($_COOKIE["uuid"])) {
                 <input type="text" placeholder="Enter name to search..." control-id="ControlID-1">
                 <button control-id="ControlID-2"><i class="fas fa-search"></i></button>
             </div>
+            <div id="search-results"></div>
+
+            <div class="contact-card" id="1234">
+                <div class="contact-avatar"></div>
+                <div class="contact-container">
+                    <div class="contact-name">Ragen</div>
+                    <div class="contact-last-msg">So, r u gonna now?</div>
+                </div>
+                <div class="contact-status" style="background-color: green;"></div>
+            </div>
             </div>
         </div>            
 
