@@ -3,7 +3,11 @@ const messagerDimmer = document.getElementById("messagerDimmer");
 const bioEditButton = document.getElementById("bio-edit-button");
 const settingsEnterButton = document.getElementById("settings-enter-button");
 const signOutButton = document.getElementById("signOut-button");
+// const start= new Date().getTime();
+const start= window.performance.timing.navigationStart;;
 const x = document.querySelector(".x");
+let user_folder_path;
+let uuid;
 let userBio;
 let userFirstName;
 let userLastName;
@@ -52,7 +56,17 @@ $( "#username-shorted" ).on( "keydown", function( event ) {
     if(event.which==13){
         shUsernameSave();
     }
-  });
+});
+$("#username-firstname" ).on( "keydown", function( event ) {
+    if(event.which==13){
+        shUsernameSave();
+    }
+});
+$("#username-lastname" ).on( "keydown", function( event ) {
+    if(event.which==13){
+        shUsernameSave();
+    }
+});
 
 document.addEventListener("DOMContentLoaded", function() {
     // $("#confirmerDimmer").fadeIn(90);
@@ -171,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function() {
             processData: false,
             contentType: false,
             success:function(){
-                userInfoGet();
+                // userInfoGet();
                 document.querySelector(".slide-down-message").innerText = "Changes were saved";
                 $('.slide-down-messager').slideDown(300);
                 $(".x-slide-down").click(() => {
@@ -391,7 +405,7 @@ function AvatarLetters(userName) {
     // avatar.setAttribute('alt', alt);
   }
 
-  function accInfoParse(array) {
+    function accInfoParse(array) {
         if (Object.keys(array).length == 3) {
           if (array.Problem == "Cookie was not found" || array.Problem == "Unappropriate uuid" || array.Problem == "No such as uuid") {
               if (array.Status == "Denied") {
@@ -417,15 +431,18 @@ function AvatarLetters(userName) {
             userFirstName = array.firstname;
             userLastName = array.lastname;
             userShortedName = array.username;
+            user_folder_path = array.folder_name;
+            // uuid = array.uuid;
             usernamesArray = [userFirstName, userLastName, userShortedName];
             if (!array.avi) {
                 AvatarLetters(array.username);
             } else {
                 let avis = document.querySelectorAll(".user-avatar-img");
                 for (let i=0; i<avis.length; i++) {
-                    avis[i].src = "/chat%20proto/system/"+array.folder_name+"photos/avis/"+array.avi;
+                    avis[i].src = "/chat%20proto/system/"+user_folder_path+"photos/avis/"+array.avi;
                 }
             }
+
         }
 
   }
@@ -433,11 +450,11 @@ function AvatarLetters(userName) {
 
 function userChange(parameter, change) {
     let xml = new XMLHttpRequest();
-    xml.onreadystatechange = function() {
-        if (this.readyState==4 && this.status==200) {
-            userInfoGet();
-        }
-    }
+    // xml.onreadystatechange = function() {
+    //     if (this.readyState==4 && this.status==200) {
+    //         userInfoGet();
+    //     }
+    // }
     xml.open("POST", "/chat%20proto/system/user-change.php", true);
     xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     if (parameter == "username") {
@@ -519,3 +536,85 @@ function shUsernameSave() {
 
     $("#username-changer-dimmer").fadeOut(90);
 }
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+
+
+
+
+// WebSocket code
+let ws = new WebSocket("ws://localhost:8000");
+const end = new Date().getTime();
+const sp_time = end - start;
+uuid = getCookie('uuid');
+ws.onopen = function() {
+    
+    console.log(`Connection request made: ${sp_time}ms`);
+    let msg = {
+        'type': 'system',
+        'ini': 'main/connection',
+        's_msg': {
+            'act': 'connecting',
+            'st': 201,
+            'sp_time': sp_time
+        },
+        'client_info': {
+            'uuid': uuid
+        }
+    };
+    //convert and send data to server
+    ws.send(JSON.stringify(msg));
+};
+ws.onclose = function() {
+    console.log("Connection closed succesfully");
+};
+ws.onerror = error=>{
+    console.log("Error occured: "+error.code + ". Reason: " + error.reason);
+};
+ws.onmessage = function(e) {
+    let sended_data = JSON.parse(e.data);
+    // console.log(sended_data.type);
+    if (sended_data.type == 'system') {
+        if (sended_data.ini == 'ws/conn' && sended_data.status == 202) {
+            console.log(`Connected succesfully: ${new Date().getTime() - end}ms`)
+        } else if (sended_data.ini == 'ws/events') {
+            let result = sended_data.event.changes.result;
+            switch (sended_data.event.table) {
+                case 'usernames':
+                    document.getElementById("username").innerText = result.first_name +' '+ result.last_name;
+                    document.getElementById("username-firstname").value = result.first_name;
+                    document.getElementById("username-lastname").value = result.last_name;
+
+                    userFirstName = result.first_name;
+                    userLastName = result.last_name;
+                    usernamesArray = [userFirstName, userLastName, userShortedName];
+
+                    break;
+
+                case 'bio':
+                    document.getElementById("user-bio").value = result.Bio;
+                    document.getElementById("user-bio-remaining-symbols").innerText = 100 - result.Bio.length+" characters left";
+
+                    userBio = result.Bio;
+                    break;
+
+                case 'avis':
+                    if (!result.Filename) {
+                        AvatarLetters(document.getElementById("username"));
+                    } else {
+                        let avis = document.querySelectorAll(".user-avatar-img");
+                        for (let i=0; i<avis.length; i++) {
+                            avis[i].src = "/chat%20proto/system/"+user_folder_path+"photos/avis/"+result.Filename;
+                        }
+                    }
+
+                    break;
+            };
+        }
+    }
+};
+

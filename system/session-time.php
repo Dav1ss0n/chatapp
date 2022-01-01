@@ -23,7 +23,7 @@ class sessioner {
             $conn = $chat->connect();
             $this->conn = $conn;
     
-            $prepared = $this->conn->prepare("SELECT ID, Timestamp FROM actions WHERE User = ? ORDER BY ID DESC LIMIT 1");
+            $prepared = $this->conn->prepare("SELECT ID, Timestamp FROM logs WHERE User = ? ORDER BY ID DESC LIMIT 1");
             if (!$prepared) {
                 die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
             }

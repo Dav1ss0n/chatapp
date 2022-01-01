@@ -128,7 +128,7 @@ class userChange {
                 $uuid=hex2bin($_COOKIE["uuid"]);
                 $update_lastname->execute();
             } elseif (substr($this->change[$i], 0, 1) == 2) {
-                $select_username = $this->conn->prepare("SELECT Login FROM users WHERE Login = ?");
+                $select_username = $this->conn->prepare("SELECT Login FROM u_info WHERE Login = ?");
                 if (!$select_username) {
                     die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
                 }
@@ -138,7 +138,7 @@ class userChange {
                 if ($select_username->get_result()->num_rows == 1) {
                     die(messagerArray_l3("username_changing", "Not found", "Username(Login) was already taken"));
                 } else {
-                    $update_username = $this->conn->prepare("UPDATE users SET Login = ? WHERE UUID = ?");
+                    $update_username = $this->conn->prepare("UPDATE u_info SET Login = ? WHERE UUID = ?");
                     if (!$update_username) {
                         die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
                     }
@@ -171,7 +171,7 @@ class userChange {
             $row = $res->fetch_assoc();
             $path = $row["Path"];
 
-            $delete_usersTable = $this->conn->prepare("DELETE FROM users WHERE UUID = ?");
+            $delete_usersTable = $this->conn->prepare("DELETE FROM u_info WHERE UUID = ?");
             if (!$delete_usersTable) {
                 die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
             }

@@ -57,7 +57,7 @@ class logger {
             $conn->close();
             echo messagerArray_l3("Register", "Not found", "Login and Email were already taken");
         } else {
-            $prepared = $this->conn->prepare("INSERT INTO users (Login, Email, Password, UUID) VALUES (?, ?, ?, ?);");
+            $prepared = $this->conn->prepare("INSERT INTO u_info (Login, Email, Password, UUID) VALUES (?, ?, ?, ?);");
             $prepared->bind_param("ssss", $this->login, $this->email, $de_password, $uuid);
             $de_password = password_hash($this->password, PASSWORD_BCRYPT);
             $uuid =  gen_uuid();
@@ -80,7 +80,7 @@ class logger {
                         $prepared->close();
                         
                         $currentTime = date("Y-m-d H:i:s");
-                        $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp, IP) VALUES (?, ?, ?);");
+                        $actionQuery = $this->conn->prepare("INSERT INTO logs (User, Timestamp, IP) VALUES (?, ?, ?);");
                         if (!$actionQuery) {
                             die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
                         }
@@ -154,7 +154,7 @@ class logger {
             if (strstr($this->login, "@") and strstr($this->login, ".")) {
                     $currentTime = date("Y-m-d H:i:s");
     
-                    $prepared = $this->conn->prepare("SELECT * FROM users WHERE Email = ?");
+                    $prepared = $this->conn->prepare("SELECT * FROM u_info WHERE Email = ?");
                     $prepared->bind_param("s", $this->login);
                     $prepared->execute();
                     $prepared = $prepared->get_result();
@@ -177,7 +177,7 @@ class logger {
                                 // $lastLogChecker->execute();
                                 // $row = $lastLogChecker->get_result()->fetch_assoc();
                                 // if (strtotime($row["Timestamp"])+21600 )
-                                $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp, IP) VALUES (?, ?, ?);");
+                                $actionQuery = $this->conn->prepare("INSERT INTO logs (User, Timestamp, IP) VALUES (?, ?, ?);");
                                 if (!$actionQuery) {
                                     die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
                                 }
@@ -201,7 +201,7 @@ class logger {
                         die(messagerArray_l3("Login", "Not found", "Occured unexpected error with data"));
                     }
             } else {
-                $prepared = $this->conn->prepare("SELECT * FROM users WHERE Login = ?");
+                $prepared = $this->conn->prepare("SELECT * FROM u_info WHERE Login = ?");
                 if(!$prepared){ //если ошибка - убиваем процесс и выводим сообщение об ошибке.
                     die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
                 }
@@ -217,7 +217,7 @@ class logger {
             
                         $prepared->close();
                         if (password_verify($this->password, $dbPass)) {
-                            $actionQuery = $this->conn->prepare("INSERT INTO actions (User, Timestamp, IP) VALUES (?, ?, ?);");
+                            $actionQuery = $this->conn->prepare("INSERT INTO logs (User, Timestamp, IP) VALUES (?, ?, ?);");
                             if (!$actionQuery) {
                                 die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
                             }
@@ -259,7 +259,7 @@ class dataChecker {
 
         $this->conn = $conn;
 
-        $select_userLogin = $this->conn->prepare("SELECT * FROM users WHERE Login = ?");
+        $select_userLogin = $this->conn->prepare("SELECT * FROM u_info WHERE Login = ?");
         if (!$select_userLogin) {
             die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
         }
@@ -274,7 +274,7 @@ class dataChecker {
     }
 
     final public function emailChecker($emailToCheck, $connection) {
-        $prepared = mysqli_prepare($connection, "SELECT * FROM users WHERE Email = ?;");
+        $prepared = mysqli_prepare($connection, "SELECT * FROM u_info WHERE Email = ?;");
         $prepared->bind_param("s", $emailToCheck);
         $prepared->execute();
         $result = $prepared->get_result();

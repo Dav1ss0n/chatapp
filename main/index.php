@@ -158,7 +158,7 @@ if (!isset($_COOKIE["uuid"])) {
 
                     <label for="username-shorted" class="user-settings-label">Your username:</label>
                     <span id="username-shorted-sign">@</span>
-                    <input type="text" id="username-shorted" value="" oninput="let p = this.selectionStart; this.value = this.value.toLowerCase();this.setSelectionRange(p, p);" onkeypress ="return suppressNonEng(event)" autocomplete="off"> 
+                    <input type="text" id="username-shorted" value="" oninput="let p = this.selectionStart; this.value = this.value.toLowerCase();this.setSelectionRange(p, p);" onkeypress ="return suppressNonEng(event)" autocomplete="off" disabled> 
 
                     <button id="username-save" disabled>Save</button>
                 </div>

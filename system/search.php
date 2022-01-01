@@ -61,7 +61,7 @@ class userSearch {
                     $user_avi = $user_path .'photos/avis/'. $user_lastAvi;
                 } 
                 
-                $select_sUN = $this->conn->prepare("SELECT Login FROM users WHERE UUID = ?");
+                $select_sUN = $this->conn->prepare("SELECT Login FROM u_info WHERE UUID = ?");
                 if (!$select_sUN) {
                     die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
                 }

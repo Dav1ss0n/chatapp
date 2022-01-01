@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `actions`
+-- Структура таблицы `logs`
 --
 
-CREATE TABLE `actions` (
+CREATE TABLE `logs` (
   `ID` int(11) NOT NULL,
   `User` varchar(40) NOT NULL,
   `Timestamp` text NOT NULL,
@@ -147,9 +147,9 @@ CREATE TABLE `user_statuses` (
 --
 
 --
--- Индексы таблицы `actions`
+-- Индексы таблицы `logs`
 --
-ALTER TABLE `actions`
+ALTER TABLE `logs`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `User` (`User`);
 
@@ -223,9 +223,9 @@ ALTER TABLE `user_statuses`
 --
 
 --
--- AUTO_INCREMENT для таблицы `actions`
+-- AUTO_INCREMENT для таблицы `logs`
 --
-ALTER TABLE `actions`
+ALTER TABLE `logs`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 
 --

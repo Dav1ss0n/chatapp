@@ -19,7 +19,7 @@ class accInfo {
         $chat = new db_connect();
         $this->conn = $chat->connect();
 
-        $uuid_checker = $this->conn->prepare("SELECT Login FROM users WHERE UUID = ?");
+        $uuid_checker = $this->conn->prepare("SELECT Login FROM u_info WHERE UUID = ?");
         if (!$uuid_checker) {
             die( "SQL Error: {$this->conn->errno} - {$this->conn->error}" );
         }
